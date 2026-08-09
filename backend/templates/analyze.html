@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>วิเคราะห์อารมณ์ใบหน้า — Emotion Food AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .camera-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background-color: #1f2937;
+        }
+
+        #webcam {
+            width: 100%;
+            height: auto;
+            display: block;
+            transform: scaleX(-1); /* กลับข้างแบบกระจกเงา */
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transform: scaleX(-1); /* กลับข้างสอดคล้องกับวิดีโอ */
+        }
+
+        .analysis-card {
+            max-width: 640px;
+            margin: 20px auto;
+            padding: 24px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .emotion-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 20px;
+        }
+
+        .progress-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .progress-label {
+            width: 120px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .progress-track {
+            flex-grow: 1;
+            height: 12px;
+            background-color: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .bg-anger { background-color: #ef4444; }
+        .bg-happiness { background-color: #10b981; }
+        .bg-neutral { background-color: #3b82f6; }
+        .bg-sadness { background-color: #8b5cf6; }
+
+        .progress-val {
+            width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="padding: 20px;">
+        <h2 style="text-align: center; margin-bottom: 20px;">ระบบตรวจจับและวิเคราะห์อารมณ์</h2>
+
+        <!-- ส่วนแสดงกล้อง WebCam และ Bounding Box Canvas Overlay -->
+        <div class="camera-wrapper">
+            <video id="webcam" autoplay playsinline muted></video>
+            <canvas id="overlay"></canvas>
+        </div>
+
+        <!-- ส่วนแสดงผลสถานะและ % ความน่าจะเป็นของอารมณ์ -->
+        <div class="analysis-card">
+            <div id="detected-emotion" class="emotion-display">กำลังเปิดกล้อง...</div>
+
+            <div id="progress-bars" class="progress-group">
+                <div class="progress-item">
+                    <span class="progress-label">โกรธ (Anger)</span>
+                    <div class="progress-track">
+                        <div id="bar-anger" class="progress-fill bg-anger"></div>
+                    </div>
+                    <span id="val-anger" class="progress-val">0%</span>
+                </div>
+
+                <div class="progress-item">
+                    <span class="progress-label">สุข (Happiness)</span>
+                    <div class="progress-track">
+                        <div id="bar-happiness" class="progress-fill bg-happiness"></div>
+                    </div>
+                    <span id="val-happiness" class="progress-val">0%</span>
+                </div>
+
+                <div class="progress-item">
+                    <span class="progress-label">ปกติ (Neutral)</span>
+                    <div class="progress-track">
+                        <div id="bar-neutral" class="progress-fill bg-neutral"></div>
+                    </div>
+                    <span id="val-neutral" class="progress-val">0%</span>
+                </div>
+
+                <div class="progress-item">
+                    <span class="progress-label">เศร้า (Sadness)</span>
+                    <div class="progress-track">
+                        <div id="bar-sadness" class="progress-fill bg-sadness"></div>
+                    </div>
+                    <span id="val-sadness" class="progress-val">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='analyze.js') }}"></script>
+</body>
+</html>

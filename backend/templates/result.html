@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FaceFood · ผลการวิเคราะห์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Baloo+2:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="navbar">
+    <a class="brand" href="{{ url_for('home') }}">
+      <span class="logo-mark">
+        <svg viewBox="0 0 32 32" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="15" stroke="#8b5e45" stroke-width="1.5"/>
+          <path d="M11 9v7a2 2 0 0 0 2 2v6" stroke="#8b5e45" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M11 9v5M13.5 9v5" stroke="#8b5e45" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M20 9c-1.4 0-2.4 1.6-2.4 4s1 4.5 2.4 4.5V24" stroke="#8b5e45" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      FaceFood
+    </a>
+    <div class="nav-links">
+      <a class="pill-link" href="{{ url_for('home') }}">หน้าหลัก</a>
+      <a class="pill-link" href="{{ url_for('home') }}#how">วิธีใช้งาน</a>
+      <a class="pill-link" href="{{ url_for('home') }}#about">เกี่ยวกับ</a>
+      <a class="pill-link cta" href="{{ url_for('analyze') }}">เริ่มวิเคราะห์อารมณ์</a>
+    </div>
+  </nav>
+
+  {% if error %}
+  <div class="menu-error">ดึงข้อมูลเมนูไม่สำเร็จ: {{ error }}</div>
+  <div class="bottom-actions">
+    <a class="btn btn-primary" href="{{ url_for('analyze') }}">วิเคราะห์อีกครั้ง</a>
+  </div>
+
+  {% else %}
+
+  <div class="result-head">
+    <div class="result-emoji">{{ emotion_emoji }}</div>
+    <span class="eyebrow">อารมณ์ที่ตรวจพบ</span>
+    <h2>{{ emotion_th }} · {{ emotion_en }}</h2>
+    <p class="desc">{{ emotion_desc }}</p>
+
+    <details class="prob-detail">
+    <summary>ดูรายละเอียดผลการวิเคราะห์ (%)</summary>
+    {% for key in emotion_order %}
+    <div class="prob-row">
+        <span>{{ labels[key] }}</span>
+        <div class="prob-track">
+            <div class="prob-fill {{ key|lower }}" style="width: {{ probs.get(key, 0) | round(1) }}%;"></div>
+        </div>
+        <span class="prob-value">{{ probs.get(key, 0) | round(1) }}%</span>
+    </div>
+    {% endfor %}
+  </details>
+  </div>
+
+  <div class="menu-heading">🥣 เมนูแนะนำสำหรับคุณ</div>
+
+  <div class="tabs" id="tabs">
+    {% for cat_key, cat_label in categories.items() %}
+    <button class="tab-btn {% if loop.first %}active{% endif %}" data-cat="{{ cat_key }}">{{ cat_label }} 5</button>
+    {% endfor %}
+  </div>
+
+  <div id="panels">
+    {% for cat_key, cat_label in categories.items() %}
+    <div class="food-panel {% if loop.first %}active{% endif %}" data-cat="{{ cat_key }}">
+      <div class="card-grid" id="cards-{{ cat_key }}">
+        {% for item in food_items[cat_key] %}
+        <div class="food-card">
+          <div class="thumb">{{ category_icons[cat_key] }}</div>
+          <div class="caption">{{ item }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="bottom-actions">
+    <a class="btn btn-primary" href="{{ url_for('analyze') }}">วิเคราะห์อีกครั้ง</a>
+    <button class="btn btn-ghost" id="remenuBtn">รีเมนู — สุ่มใหม่</button>
+  </div>
+
+  <script>
+    window.__EMOTION__ = {{ emotion|tojson }};
+    window.__CATEGORIES__ = {{ categories.keys()|list|tojson }};
+    window.__CATEGORY_ICONS__ = {{ category_icons|tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='result.js') }}"></script>
+
+  {% endif %}
+</div>
+
+</body>
+</html>

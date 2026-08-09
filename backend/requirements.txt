@@ -1,0 +1,13 @@
+Flask==3.0.2
+Flask-CORS==4.0.0
+torch==2.2.1
+torchvision==0.17.1
+opencv-python-headless==4.9.0.80
+Pillow==10.2.0
+numpy==1.26.4
+firebase-admin==6.5.0
+gunicorn==22.0.0
+
+# หมายเหตุ:
+# - เพิ่ม firebase-admin ที่ขาดไปจากไฟล์เดิม (firebase_utils.py import ใช้อยู่แล้วแต่ไม่ได้ลงใน requirements.txt)
+# - เพิ่ม gunicorn สำหรับรันบน production (Flask dev server ไม่ควรใช้รับ traffic จริง)
