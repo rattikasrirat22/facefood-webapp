@@ -1,0 +1,982 @@
+{
+  "Anger": {
+    "dish": [
+      {
+        "item_id": "FD001",
+        "menu_name": "แกงจืดเต้าหู้ห่อสาหร่ายใส่ใบตำลึง",
+        "nutritional_value": "Magnesium, Isoflavones, Iodine",
+        "recommendation_reason": "แมกนีเซียมและไอโซฟลาโวนช่วยคลายกล้ามเนื้อ ลดภาวะความดันโลหิตสูงชั่วคราวขณะโกรธ",
+        "ref_id": "REF035",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD002",
+        "menu_name": "สเต็กปลาแซลมอนนึ่งซีอิ๊วใส่ขิงสด",
+        "nutritional_value": "Omega-3 (EPA/DHA), B-Complex",
+        "recommendation_reason": "ลดสารอักเสบ Pro-inflammatory Cytokines ที่ส่งผลให้สมองส่วน Amygdala ตื่นตัวเกินขนาด",
+        "ref_id": "REF002",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD003",
+        "menu_name": "ข้าวกล้องอกไก่ผัดเม็ดมะม่วงหิมพานต์",
+        "nutritional_value": "Complex Carbohydrates, Tryptophan",
+        "recommendation_reason": "คาร์โบไฮเดรตเชิงซ้อนช่วยส่ง Tryptophan เข้าสู่สมองเพื่อสร้าง Serotonin ลดอารมณ์ฉุนเฉียว",
+        "ref_id": "REF005",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD004",
+        "menu_name": "ผัดตำลึงเต้าหู้ไข่ไก่ฉีก",
+        "nutritional_value": "Magnesium, Flavonoids",
+        "recommendation_reason": "ใบตำลึงและเต้าหู้มีแมกนีเซียมสูง ช่วยลดการส่งสัญญาณของระบบประสาท Sympathetic คลายความเกร็ง",
+        "ref_id": "REF035",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD005",
+        "menu_name": "สลัดคินัวอกไก่ย่างซอสถั่วเหลือง",
+        "nutritional_value": "Fiber, Complex Carbs, Plant Protein",
+        "recommendation_reason": "ช่วยรักษาระดับน้ำตาลในเลือดให้คงที่อย่างสม่ำเสมอ ป้องกันภาวะหงุดหงิดฉุนเฉียวจากน้ำตาลตก",
+        "ref_id": "REF036",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD006",
+        "menu_name": "ข้าวหน้าปลาซาบะย่างซีอิ๊ว",
+        "nutritional_value": "Omega-3, Magnesium, Folate",
+        "recommendation_reason": "ผสานกรดไขมันต้านการอักเสบเข้ากับแมกนีเซียม ช่วยปรับการทำงานของระบบประสาทอัตโนมัติให้สงบลง",
+        "ref_id": "REF002",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD007",
+        "menu_name": "โจ๊กข้าวกล้องต้มอกไก่สับใส่ไข่เยี่ยวม้า",
+        "nutritional_value": "GABA, Tryptophan, B-Vitamins",
+        "recommendation_reason": "ข้าวกล้องย่อยง่ายให้พลังงานต่อเนื่อง พร้อมสาร GABA ช่วยชะลอการกระตุ้นประสาทที่ตึงเครียด",
+        "ref_id": "REF037",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD008",
+        "menu_name": "ซุปมะเขือเทศเต้าหู้ขาวอ่อน",
+        "nutritional_value": "Lycopene, Magnesium, Potassium",
+        "recommendation_reason": "โพแทสเซียมและแมกนีเซียมช่วยลดความดันโลหิต ไลโคปีนช่วยลดภาวะ Oxidative Stress ในสมอง",
+        "ref_id": "REF003",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD009",
+        "menu_name": "ผัดคะน้าอกไก่ย่างน้ำมันหอย",
+        "nutritional_value": "Calcium, Vitamin C, Complex Carbs",
+        "recommendation_reason": "แคลเซียมสูงจากคะน้าช่วยส่งสัญญาณควบคุมการหดตัวของกล้ามเนื้อ และลดอารมณ์ตึงเครียด",
+        "ref_id": "REF038",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD010",
+        "menu_name": "สลัดผักโขมอบกรอบใส่เมล็ดฟักทองและอกไก่",
+        "nutritional_value": "Magnesium, Zinc, Healthy Fats",
+        "recommendation_reason": "รวม 3 สุดยอดสารอาหารคลายเครียด ช่วยยับยั้งการหลั่งฮอร์โมน Cortisol ออกจากต่อมหมวกไต",
+        "ref_id": "REF008",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD011",
+        "menu_name": "แกงจืดฟักเขียวใส่ไก่สับและเห็ดหอม",
+        "nutritional_value": "Potassium, B-Vitamins, L-Theanine",
+        "recommendation_reason": "ฟักเขียวมีฤทธิ์เย็นและโพแทสเซียมสูง ช่วยลดภาวะความดันและคลายอารมณ์ที่เร่าร้อน",
+        "ref_id": "REF039",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD012",
+        "menu_name": "ข้าวกล้องอกไก่ผัดกะเพราพริกสด",
+        "nutritional_value": "Eugenol, Polysaccharides",
+        "recommendation_reason": "สาร Eugenol ในกะเพรามีฤทธิ์ Adaptogen ช่วยให้ร่างกายและสมองรับมือกับความเครียดได้ดีขึ้น",
+        "ref_id": "REF040",
+        "status": "กำลังรวบรวม"
+      },
+      {
+        "item_id": "FD013",
+        "menu_name": "พาสต้าเพสโต้ซอสคื่นฉ่ายและปลาทูน่า",
+        "nutritional_value": "Apigenin, Omega-3, Potassium",
+        "recommendation_reason": "สาร Apigenin ในคื่นฉ่ายช่วยขยายหลอดเลือดและลดการตื่นตัวของระบบประสาทส่วนกลาง",
+        "ref_id": "REF041",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD014",
+        "menu_name": "ซุปรวมธัญพืชและอกไก่ตุ๋น",
+        "nutritional_value": "Complex Carbs, Fiber, Magnesium",
+        "recommendation_reason": "ธัญพืชหลากหลายชนิดช่วยรักษาระดับสมดุลอินซูลินและ Serotonin ในสมองอย่างยาวนาน",
+        "ref_id": "REF036",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD015",
+        "menu_name": "ซุปมิโสะใส่สาหร่ายวากาเมะและเต้าหู้",
+        "nutritional_value": "Glutamic Acid, Iodine, B-Vitamins",
+        "recommendation_reason": "ซุปร้อนช่วยกระตุ้น Vagus Nerve ให้ร่างกายเข้าสู่ภาวะ Rest and Digest (ผ่อนคลาย)",
+        "ref_id": "REF025",
+        "status": "ตรวจแล้ว"
+      }
+    ],
+    "drink": [
+      {
+        "item_id": "DR001",
+        "menu_name": "ชาดอกคาโมมายล์อุ่นผสมน้ำผึ้ง",
+        "nutritional_value": "Apigenin, Glycine",
+        "recommendation_reason": "Apigenin จับกับ GABA A Receptors ในสมอง ลดอัตราการเต้นของหัวใจและลดระดับ Cortisol",
+        "ref_id": "REF042",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR002",
+        "menu_name": "นมอัลมอนด์อุ่นรสธรรมชาติ",
+        "nutritional_value": "Magnesium, L-Tryptophan",
+        "recommendation_reason": "แมกนีเซียมและทริปโตเฟนในนมอัลมอนด์ช่วยคลายความตึงเกร็งของกล้ามเนื้อและระบบประสาท",
+        "ref_id": "REF004",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR003",
+        "menu_name": "ชาสเปียร์มินต์เย็น",
+        "nutritional_value": "Menthol, Rosmarinic Acid",
+        "recommendation_reason": "Menthol ช่วยผ่อนคลายกล้ามเนื้อเรียบ ลดอาการแน่นเกร็งท้องที่เกิดจากอารมณ์โกรธ",
+        "ref_id": "REF043",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR004",
+        "menu_name": "น้ำเลมอนอุ่นผสมน้ำผึ้ง",
+        "nutritional_value": "Citric Acid, Hydration",
+        "recommendation_reason": "การเติมน้ำและกรดซีตริกช่วยลดระดับ Cortisol ที่พุ่งสูงขึ้นจากภาวะ Dehydration ชั่วคราว",
+        "ref_id": "REF044",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR005",
+        "menu_name": "สมูทตี้กล้วยหอมผักโขม",
+        "nutritional_value": "Magnesium, Potassium, Vitamin B6",
+        "recommendation_reason": "โพแทสเซียมและแมกนีเซียมเข้มข้นช่วยลดระดับความดันโลหิตและขับโซเดียมส่วนเกิน",
+        "ref_id": "REF016",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR006",
+        "menu_name": "น้ำเก๊กฮวยอุ่นไม่หวาน",
+        "nutritional_value": "Chrysanthemum Flavonoids",
+        "recommendation_reason": "สารฟลาโวนอยด์ในดอกเก๊กฮวยช่วยลดการอักเสบ ขยายหลอดเลือด และลดอารมณ์หงุดหงิด",
+        "ref_id": "REF045",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR007",
+        "menu_name": "น้ำใบบัวบกสกัดเย็น",
+        "nutritional_value": "Asiaticoside, Madecassoside",
+        "recommendation_reason": "สารกลุ่ม Triterpenoids ในใบบัวบกช่วยลดความวิตกกังวลและลดภาวะความเครียดระดับเซลล์ประสาท",
+        "ref_id": "REF046",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR008",
+        "menu_name": "นมถั่วเหลืองอุ่นสูตรผสมงาขาว",
+        "nutritional_value": "Isoflavones, Tryptophan, Calcium",
+        "recommendation_reason": "Isoflavones และแคลเซียมช่วยปรับสมดุลการทำงานของประสาท ชะลอภาวะอารมณ์สวิง",
+        "ref_id": "REF047",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR009",
+        "menu_name": "น้ำตะไคร้ใบเตยอุ่น",
+        "nutritional_value": "Essential Oils, Citral",
+        "recommendation_reason": "กลิ่นหอมระเหยและ Citral ช่วยกระตุ้นระบบประสาท Parasympathetic ให้รู้สึกสงบลง",
+        "ref_id": "REF048",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR010",
+        "menu_name": "น้ำเบอร์รี่รวมสกัดเย็น",
+        "nutritional_value": "Anthocyanin, Vitamin C",
+        "recommendation_reason": "Anthocyanin ปกป้องเซลล์ประสาทจากการทำลายของสารอนุมูลอิสระที่หลั่งออกมาขณะโกรธ",
+        "ref_id": "REF049",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR011",
+        "menu_name": "ชาดอกลาเวนเดอร์",
+        "nutritional_value": "Linalool, Linalyl Acetate",
+        "recommendation_reason": "Linalool ช่วยออกฤทธิ์ต่อระบบประสาทส่วนกลางเพื่อลดภาวะ Agitation (อารมณ์ปั่นป่วน)",
+        "ref_id": "REF050",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR012",
+        "menu_name": "สมูทตี้โอ๊ตมีลบลูเบอร์รี่",
+        "nutritional_value": "B-Complex, Fiber, Magnesium",
+        "recommendation_reason": "ช่วยปรับสมดุลระบบทางเดินอาหารและเพิ่มระดับ Serotonin ผ่านแกน Gut-Brain Axis",
+        "ref_id": "REF051",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR013",
+        "menu_name": "น้ำส้มคั้นสดผสมเนื้อส้ม",
+        "nutritional_value": "Aurapten, Pectin",
+        "recommendation_reason": "Aurapten มีฤทธิ์ต้านการอักเสบ และช่วยให้ระบบหมุนเวียนเลือดทำงานได้อย่างราบรื่น",
+        "ref_id": "REF052",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR014",
+        "menu_name": "สมูทตี้โยเกิร์ตเชอร์รี่",
+        "nutritional_value": "Anthocyanins, Melatonin, Probiotics",
+        "recommendation_reason": "Anthocyanins ช่วยลดภาวะ Neuroinflammation (การอักเสบในสมอง) ที่เกิดจากความเครียด",
+        "ref_id": "REF053",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR015",
+        "menu_name": "ชาข้าวบาร์เลย์คั่วอุ่น (Mugi-cha)",
+        "nutritional_value": "Alkylpyrazines, GABA",
+        "recommendation_reason": "Alkylpyrazines ช่วยปรับการไหลเวียนของเลือด และ GABA ช่วยผ่อนคลายคลื่นสมอง",
+        "ref_id": "REF054",
+        "status": "ตรวจแล้ว"
+      }
+    ],
+    "ingredient": [
+      {
+        "item_id": "ING001",
+        "menu_name": "ถั่วเม็ดมะม่วงหิมพานต์อบ",
+        "nutritional_value": "Zinc, Magnesium, Tryptophan",
+        "recommendation_reason": "ธาตุเหล็กและซิงค์ช่วยปรับสมดุลการทำงานของสมองส่วน Amygdala ไม่ให้ตอบสนองต่ออารมณ์รุนแรงเกินไป",
+        "ref_id": "REF055",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING002",
+        "menu_name": "ผักโขมสด",
+        "nutritional_value": "Magnesium, Folate, Iron",
+        "recommendation_reason": "แมกนีเซียมเข้มข้นช่วยยับยั้งการหลั่งฮอร์โมน ACTH ซึ่งเป็นตัวกระตุ้นการสร้าง Cortisol",
+        "ref_id": "REF056",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING003",
+        "menu_name": "งาขาวอบ",
+        "nutritional_value": "Sesamin, Calcium, Magnesium",
+        "recommendation_reason": "เซซามินและแคลเซียมปริมาณสูงช่วยเสริมความแข็งแรงของระบบประสาทและคลายกล้ามเนื้อ",
+        "ref_id": "REF057",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING004",
+        "menu_name": "เต้าหู้ขาวแข็ง",
+        "nutritional_value": "Plant Protein, Isoflavones",
+        "recommendation_reason": "โปรตีนพืชย่อยง่าย รักษาระดับกรดอะมิโนในเลือดให้คงที่ ช่วยให้จิตใจสงบนิ่ง",
+        "ref_id": "REF058",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING005",
+        "menu_name": "เมล็ดแฟลกซ์ (Flaxseed)",
+        "nutritional_value": "Alpha-Linolenic Acid (ALA), Fiber",
+        "recommendation_reason": "กรดไขมัน ALA ลดการตอบสนองเชิงลบต่อความเครียด และไฟเบอร์ช่วยคุมระดับน้ำตาลในเลือด",
+        "ref_id": "REF059",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING006",
+        "menu_name": "สาหร่ายวากาเมะ",
+        "nutritional_value": "Iodine, Magnesium, Fucoxanthin",
+        "recommendation_reason": "ปรับการทำงานของต่อมไทรอยด์เพื่อควบคุมอัตราเมตาบอลิซึมและอารมณ์ไม่ให้ผันผวน",
+        "ref_id": "REF060",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING007",
+        "menu_name": "ข้าวโอ๊ต (Oatmeal)",
+        "nutritional_value": "Complex Carbs, B-Vitamins",
+        "recommendation_reason": "คาร์โบไฮเดรตเชิงซ้อนช่วยกระตุ้นการสังเคราะห์ Serotonin อย่างมีเสถียรภาพ",
+        "ref_id": "REF061",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING008",
+        "menu_name": "ถั่วลูกไก่ (Chickpeas)",
+        "nutritional_value": "Plant Protein, Magnesium, Folate",
+        "recommendation_reason": "โฟเลตและแมกนีเซียมช่วยลดการสะสมของ Homocysteine ในสมอง ลดภาวะอารมณ์หงุดหงิด",
+        "ref_id": "REF062",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING009",
+        "menu_name": "เมล็ดงาดำ",
+        "nutritional_value": "Lignans, ALA (Omega-3)",
+        "recommendation_reason": "Lignans ช่วยต้านอนุมูลอิสระและปรับสมดุลฮอร์โมนความเครียดในร่างกาย",
+        "ref_id": "REF063",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING010",
+        "menu_name": "ข้าวบาร์เลย์",
+        "nutritional_value": "Beta-Glucan, Magnesium",
+        "recommendation_reason": "Beta-Glucan ช่วยชะลอการดูดซึมน้ำตาล ทำให้สมองมีพลังงานใช้สม่ำเสมอ อารมณ์ไม่สวิง",
+        "ref_id": "REF064",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING011",
+        "menu_name": "คื่นฉ่ายสด",
+        "nutritional_value": "Apigenin, Potassium",
+        "recommendation_reason": "Apigenin ช่วยผ่อนคลายหลอดเลือดและลดระดับความดันโลหิตขณะเกิดอารมณ์โกรธ",
+        "ref_id": "REF065",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING012",
+        "menu_name": "ถั่วเหลืองเมล็ดแห้ง",
+        "nutritional_value": "Fiber, Iron, Magnesium",
+        "recommendation_reason": "ธาตุเหล็กช่วยนำออกซิเจนไปเลี้ยงเซลล์สมอง ป้องกันอาการอ่อนล้าทางอารมณ์",
+        "ref_id": "REF066",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING013",
+        "menu_name": "เม็ดบัวแห้ง",
+        "nutritional_value": "Isoquinoline Alkaloids, Magnesium",
+        "recommendation_reason": "สารเคมีธรรมชาติในเม็ดบัวมีฤทธิ์ช่วยให้จิตใจสงบ (Sedative effect) นุ่มนวล",
+        "ref_id": "REF067",
+        "status": "กำลังรวบรวม"
+      },
+      {
+        "item_id": "ING014",
+        "menu_name": "กระเทียมดำ (Black Garlic)",
+        "nutritional_value": "S-Allylcysteine (SAC)",
+        "recommendation_reason": "SAC เป็นสารต้านอนุมูลอิสระเข้มข้น ป้องกันความเสื่อมของเซลล์สมองจากความเครียด",
+        "ref_id": "REF068",
+        "status": "กำลังรวบรวม"
+      },
+      {
+        "item_id": "ING015",
+        "menu_name": "แตงกวาสด",
+        "nutritional_value": "Vitamin C, Potassium, Water",
+        "recommendation_reason": "ปริมาณน้ำและโพแทสเซียมสูง ช่วยเติมความชุ่มชื้นและปรับสมดุลเกลือแร่ในร่างกาย",
+        "ref_id": "REF069",
+        "status": "ตรวจแล้ว"
+      }
+    ],
+    "fruit": [
+      {
+        "item_id": "FR001",
+        "menu_name": "กล้วยน้ำว้าสุก",
+        "nutritional_value": "Complex Carbs, Vitamin B6, Potassium",
+        "recommendation_reason": "เติม Glycogen ให้สมองอย่างนุ่มนวล ป้องกันอาการหงุดหงิดจากการขาดพลังงาน",
+        "ref_id": "REF070",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR002",
+        "menu_name": "เชอร์รี่สด",
+        "nutritional_value": "Anthocyanins, Melatonin",
+        "recommendation_reason": "สาร Anthocyanins ช่วยลดการอักเสบในระดับระบบประสาท และลดระดับ Cortisol",
+        "ref_id": "REF071",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR003",
+        "menu_name": "ฝรั่งสด",
+        "nutritional_value": "High-Density Vitamin C, Lycopene",
+        "recommendation_reason": "วิตามินซีปริมาณมหาศาลช่วยเร่งกระบวนการสลาย Cortisol ออกจากกระแสเลือด",
+        "ref_id": "REF072",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR004",
+        "menu_name": "บลูเบอร์รี่สด",
+        "nutritional_value": "Flavonoids, Polyphenols",
+        "recommendation_reason": "เสริมการทำงานของสมองส่วน Prefrontal Cortex ช่วยให้มีสติระงับอารมณ์โกรธได้ดีขึ้น",
+        "ref_id": "REF073",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR005",
+        "menu_name": "แอปเปิ้ลเขียว",
+        "nutritional_value": "Pectin, Quercetin, Organic Acids",
+        "recommendation_reason": "ใยอาหารเปกตินช่วยรักษาระดับน้ำตาลให้คงที่ ป้องกันภาวะ Mood Swings",
+        "ref_id": "REF074",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR006",
+        "menu_name": "ชมพู่เพชร",
+        "nutritional_value": "High Water Content, Vitamin C",
+        "recommendation_reason": "ปริมาณน้ำสูงช่วยดับความร้อนในร่างกาย ปรับสมดุลความตื่นตัวของประสาท",
+        "ref_id": "REF075",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR007",
+        "menu_name": "มะละกอสุก",
+        "nutritional_value": "Beta-Carotene, Potassium",
+        "recommendation_reason": "โพแทสเซียมสูงช่วยลดระดับความดันโลหิตและอัตราการเต้นของหัวใจให้กลับสู่ภาวะปกติ",
+        "ref_id": "REF076",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR008",
+        "menu_name": "แตงโมสด",
+        "nutritional_value": "Citrulline, Lycopene, Water",
+        "recommendation_reason": "Citrulline ช่วยเปลี่ยนเป็น Arginine เพื่อขยายหลอดเลือดและผ่อนคลายร่างกาย",
+        "ref_id": "REF077",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR009",
+        "menu_name": "ลูกพลับสด",
+        "nutritional_value": "Tannins, Potassium, Vitamin C",
+        "recommendation_reason": "ช่วยส่งเสริมระบบภูมิคุ้มกันและลดภาวะความตึงเครียดของหลอดเลือด",
+        "ref_id": "REF078",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR010",
+        "menu_name": "ส้มโอ",
+        "nutritional_value": "Polyphenols, Vitamin C, Niacin",
+        "recommendation_reason": "Niacin (Vitamin B3) ช่วยรักษาการทำงานของระบบประสาท ลดความวิตกกังวล",
+        "ref_id": "REF079",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR011",
+        "menu_name": "ลูกพีชสด",
+        "nutritional_value": "Chlorogenic Acid, Fiber",
+        "recommendation_reason": "Chlorogenic acid ช่วยลดภาวะความเครียดระดับเซลล์ และปรับสมดุลลำไส้",
+        "ref_id": "REF080",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR012",
+        "menu_name": "กีวี่เขียว",
+        "nutritional_value": "Actinidin, Vitamin C, Potassium",
+        "recommendation_reason": "Actinidin ช่วยในการย่อยโปรตีน และวิตามินซีช่วยปรับสมดุลความเครียด",
+        "ref_id": "REF081",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR013",
+        "menu_name": "ส้มเช้ง",
+        "nutritional_value": "Flavonoids, Pectin, Vitamin C",
+        "recommendation_reason": "กลิ่นหอมอโรม่าและสารฟลาโวนอยด์ช่วยลดความตึงเครียดของระบบประสาทอัตโนมัติ",
+        "ref_id": "REF082",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR014",
+        "menu_name": "อินทผลัมสด",
+        "nutritional_value": "Magnesium, Calcium, Potassium",
+        "recommendation_reason": "แร่ธาตุทั้ง 3 ชนิดทำงานร่วมกันเพื่อผ่อนคลายระบบกล้ามเนื้อและกระแสประสาท",
+        "ref_id": "REF083",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR015",
+        "menu_name": "สับปะรด",
+        "nutritional_value": "Bromelain, Vitamin C, Manganese",
+        "recommendation_reason": "Bromelain ช่วยลดการอักเสบในร่างกาย รสหวานเปรี้ยวกลมกล่อมช่วยผ่อนคลายจิตใจ",
+        "ref_id": "REF084",
+        "status": "ตรวจแล้ว"
+      }
+    ]
+  },
+  "Happiness": {
+    "dish": [
+      {
+        "item_id": "FD016",
+        "menu_name": "ข้าวหน้าไก่ย่างเทอริยากิไข่ต้ม",
+        "nutritional_value": "L-Tyrosine, Vitamin B12",
+        "recommendation_reason": "เป็นสารตั้งต้นสำคัญในการสังเคราะห์ Dopamine ช่วยเพิ่มระดับพลังงาน ความสุข และสมาธิ",
+        "ref_id": "REF001",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD017",
+        "menu_name": "แซลมอนย่างเกลือซอสเลมอนและหน่อไม้ฝรั่ง",
+        "nutritional_value": "Omega-3 (EPA/DHA), Folate",
+        "recommendation_reason": "เสริมสร้างความยืดหยุ่นของเยื่อหุ้มเซลล์ประสาท เพิ่มการจับของ Serotonin และ Dopamine Receptors",
+        "ref_id": "REF002",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD018",
+        "menu_name": "สปาเก็ตตี้อกไก่ผัดพริกแห้งมะเขือเทศเชอร์รี่",
+        "nutritional_value": "Lycopene, Tryptophan, Capsaicin",
+        "recommendation_reason": "Lycopene ต้านอนุมูลอิสระในสมอง ขณะที่ Capsaicin กระตุ้นการหลั่งสาร Endorphin สร้างความสดชื่น",
+        "ref_id": "REF003",
+        "status": "กำลังรวบรวม"
+      },
+      {
+        "item_id": "FD019",
+        "menu_name": "สลัดอกไก่อะโวคาโดและถั่วแอลมอนด์",
+        "nutritional_value": "Monounsaturated Fats, Vitamin E",
+        "recommendation_reason": "ไขมันดีช่วยสนับสนุนโครงสร้างสมองและชะลอการเสื่อมของเซลล์ประสาท",
+        "ref_id": "REF004",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD020",
+        "menu_name": "ข้าวกล้องผัดอกไก่ใส่เม็ดมะม่วงหิมพานต์",
+        "nutritional_value": "Vitamin B-Complex, Zinc, Magnesium",
+        "recommendation_reason": "วิตามินบีและแร่ธาตุเป็น Co-factor ในกระบวนการเปลี่ยนกรดอะมิโนเป็นสารสื่อประสาทความสุข",
+        "ref_id": "REF005",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD021",
+        "menu_name": "ข้าวหน้าปลาทูน่าสเต็กซอสเทอริยากิ",
+        "nutritional_value": "Omega-3, Protein, Selenium",
+        "recommendation_reason": "Selenium และ Omega-3 ช่วยลดภาวะความเครียดระดับเซลล์ และเพิ่มการหลั่ง Dopamine",
+        "ref_id": "REF006",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD022",
+        "menu_name": "สเต็กอกไก่ย่างราดซอสมัสตาร์ดน้ำผึ้ง",
+        "nutritional_value": "Protein, L-Tyrosine, Complex Carbs",
+        "recommendation_reason": "การผสมผสานโปรตีนและคาร์โบไฮเดรตช่วยส่ง Tryptophan เข้าสู่สมองเพื่อสร้าง Serotonin",
+        "ref_id": "REF007",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD023",
+        "menu_name": "แกงกะหรี่ไก่ญี่ปุ่นใส่แคร์รอตและมันฝรั่ง",
+        "nutritional_value": "Curcumin, Beta-Carotene",
+        "recommendation_reason": "Curcumin ในผงกะหรี่กระตุ้นระดับ BDNF (Brain-Derived Neurotrophic Factor) เพิ่มอารมณ์บวก",
+        "ref_id": "REF008",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD024",
+        "menu_name": "สลัดคินัวอกไก่ย่างและบีทรูต",
+        "nutritional_value": "Nitrate, Betalain, Complex Carbs",
+        "recommendation_reason": "Nitrate ในบีทรูตขยายหลอดเลือด เพิ่มการไหลเวียนเลือดและออกซิเจนไปเลี้ยงสมองส่วนหน้า",
+        "ref_id": "REF009",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD025",
+        "menu_name": "ข้าวผัดสับปะรดอกไก่และเม็ดมะม่วงหิมพานต์",
+        "nutritional_value": "Vitamin C, Magnesium, Tryptophan",
+        "recommendation_reason": "วิตามินซีสูงช่วยต้านอนุมูลอิสระ ร่วมกับแมกนีเซียมที่ช่วยผ่อนคลายระบบประสาท",
+        "ref_id": "REF010",
+        "status": "กำลังรวบรวม"
+      },
+      {
+        "item_id": "FD026",
+        "menu_name": "พาสต้าเพสโต้ซอสอกไก่ย่างและเมล็ดฟักทอง",
+        "nutritional_value": "Zinc, Magnesium, Healthy Fats",
+        "recommendation_reason": "Zinc ในเมล็ดฟักทองช่วยปรับสมดุลการทำงานของ Glutamate และ GABA Receptors",
+        "ref_id": "REF011",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD027",
+        "menu_name": "แซนด์วิชทูน่าโฮลวีตและอะโวคาโด",
+        "nutritional_value": "Fiber, B-Vitamins, Omega-3",
+        "recommendation_reason": "ใยอาหารช่วยรักษาระดับน้ำตาลในเลือดให้คงที่ ป้องกันอาการอารมณ์ดิ่งระหว่างวัน",
+        "ref_id": "REF012",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD028",
+        "menu_name": "ซุปฟักทองครีมอัลมอนด์และไก่ฉีก",
+        "nutritional_value": "Vitamin A, Vitamin E, Protein",
+        "recommendation_reason": "ช่วยต่อต้าน Neuroinflammation (การอักเสบในระบบประสาท) เสริมความสมดุลทางอารมณ์",
+        "ref_id": "REF013",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD029",
+        "menu_name": "ข้าวกล้องอกไก่ผัดขิงและเห็ดหอม",
+        "nutritional_value": "Gingerol, Ergothioneine, B-Vitamins",
+        "recommendation_reason": "Gingerol ช่วยลดการอักเสบ และ Ergothioneine ในเห็ดเป็นสารต้านอนุมูลอิสระปกป้องสมอง",
+        "ref_id": "REF014",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FD030",
+        "menu_name": "บิบิมบับอกไก่ย่างผักรวม (Bibimbap)",
+        "nutritional_value": "Multi-Vitamins, Fiber, Probiotics",
+        "recommendation_reason": "การทานผักหลากหลายสีให้ Phytonutrients ครบถ้วน ส่งเสริมระบบ Gut-Brain Axis",
+        "ref_id": "REF015",
+        "status": "ตรวจแล้ว"
+      }
+    ],
+    "drink": [
+      {
+        "item_id": "DR016",
+        "menu_name": "น้ำส้มคั้นสด 100%",
+        "nutritional_value": "Vitamin C, Flavonoids",
+        "recommendation_reason": "วิตามินซีความเข้มข้นสูงเป็น Co-enzyme ในการแปลง Dopamine เป็น Norepinephrine",
+        "ref_id": "REF016",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR017",
+        "menu_name": "ชาเขียวมัทฉะลาเต้ใส่นมถั่วเหลือง",
+        "nutritional_value": "L-Theanine, EGCG, Isoflavones",
+        "recommendation_reason": "L-Theanine กระตุ้น Alpha Brain Waves ให้เกิดความผ่อนคลายแบบมีสมาธิและมีพลัง",
+        "ref_id": "REF017",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR018",
+        "menu_name": "สมูทตี้มิกซ์เบอร์รี่โยเกิร์ต",
+        "nutritional_value": "Anthocyanins, Probiotics",
+        "recommendation_reason": "Probiotics ช่วยปรับสมดุลจุลินทรีย์ในลำไส้ ซึ่งเป็นแหล่งผลิต Serotonin ถึง 90% ของร่างกาย",
+        "ref_id": "REF018",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR019",
+        "menu_name": "โกโก้ร้อนเข้มข้น (Dark Cocoa)",
+        "nutritional_value": "Cocoa Flavanols, Phenylethylamine",
+        "recommendation_reason": "กระตุ้นการไหลเวียนเลือดไปเลี้ยงสมอง และกระตุ้นการหลั่ง Endorphins สารแห่งความสุข",
+        "ref_id": "REF019",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR020",
+        "menu_name": "น้ำมะพร้าวสดธรรมชาติ",
+        "nutritional_value": "Potassium, Magnesium, Electrolytes",
+        "recommendation_reason": "ช่วยรักษาสมดุลความดันออสโมติกและประจุไฟฟ้าในเซลล์ประสาท ลดความเหนื่อยล้า",
+        "ref_id": "REF020",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR021",
+        "menu_name": "น้ำมัจฉะเย็นผสมน้ำเลมอน",
+        "nutritional_value": "L-Theanine, Vitamin C",
+        "recommendation_reason": "ผสาน L-Theanine และ Vitamin C ช่วยลดภาวะ Mental Fatigue (ความเหนื่อยล้าทางจิตใจ)",
+        "ref_id": "REF021",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR022",
+        "menu_name": "สมูทตี้สตอเบอร์รี่ banana-almond",
+        "nutritional_value": "Vitamin B6, Potassium, Vitamin E",
+        "recommendation_reason": "B6 ช่วยเปลี่ยน Tryptophan เป็น Serotonin ได้อย่างมีประสิทธิภาพ",
+        "ref_id": "REF022",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR023",
+        "menu_name": "น้ำสับปะรดสกัดเย็นผสมสะระแหน่",
+        "nutritional_value": "Bromelain, Menthol, Vitamin C",
+        "recommendation_reason": "Bromelain ช่วยลดการอักเสบในร่างกาย กลิ่นและสารสกัดสะระแหน่ช่วยกระตุ้นความสดชื่น",
+        "ref_id": "REF023",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR024",
+        "menu_name": "ชาดำเย็นผสมน้ำผึ้งเลมอน",
+        "nutritional_value": "Theaflavins, Natural Glucose",
+        "recommendation_reason": "Theaflavins ต้านอนุมูลอิสระ และกลูโคสธรรมชาติจากน้ำผึ้งช่วยเติมพลังงานให้สมองทันที",
+        "ref_id": "REF024",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR025",
+        "menu_name": "นมถั่วเหลืองผสมงาดำ",
+        "nutritional_value": "Isoflavones, Sesamin, Calcium",
+        "recommendation_reason": "เซซามินและแคลเซียมช่วยบำรุงระบบประสาทและปรับสมดุลฮอร์โมนชะลอความเครียด",
+        "ref_id": "REF025",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR026",
+        "menu_name": "น้ำบีทรูตผสมแอปเปิ้ลและขิง",
+        "nutritional_value": "Inorganic Nitrate, Quercetin",
+        "recommendation_reason": "เพิ่ม Nitric Oxide ในกระแสเลือด ช่วยให้เลือดนำสารอาหารและออกซิเจนไปเลี้ยงสมองได้ดีขึ้น",
+        "ref_id": "REF026",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR027",
+        "menu_name": "สมูทตี้อะโวคาโดเสาวรส",
+        "nutritional_value": "Monounsaturated Fats, Vitamin C",
+        "recommendation_reason": "เสริมไขมันดีต้านการเสื่อมของสมอง ควบคู่กับวิตามินซีที่กระตุ้นความสดชื่น",
+        "ref_id": "REF027",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR028",
+        "menu_name": "น้ำฝรั่งสกัดเย็น 100%",
+        "nutritional_value": "High-Density Vitamin C, Pectin",
+        "recommendation_reason": "วิตามินซีสูงที่สุดในกลุ่มผลไม้ไทย ช่วยลด Cortisol และเสริมความกระปรี้กระเปร่า",
+        "ref_id": "REF028",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR029",
+        "menu_name": "ชาคอมบูชะ (Kombucha) รสเบอร์รี่",
+        "nutritional_value": "Organic Acids, Probiotics",
+        "recommendation_reason": "กรดออร์แกนิกและจุลินทรีย์ดีช่วยฟื้นฟูระบบลำไส้ ส่งสัญญาณบวกผ่าน Vagus Nerve",
+        "ref_id": "REF029",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "DR030",
+        "menu_name": "น้ำมังคุดสกัดบริสุทธิ์",
+        "nutritional_value": "Xanthones, Antioxidants",
+        "recommendation_reason": "สารแซนโทน (Xanthones) มีฤทธิ์ต้านการอักเสบสูง ปกป้องเซลล์ประสาทจากความตึงเครียด",
+        "ref_id": "REF030",
+        "status": "ตรวจแล้ว"
+      }
+    ],
+    "ingredient": [
+      {
+        "item_id": "ING016",
+        "menu_name": "ถั่วแอลมอนด์อบกรอบ",
+        "nutritional_value": "Vitamin E, L-Arginine, Magnesium",
+        "recommendation_reason": "L-Arginine เสริมการสร้าง Nitric Oxide ขยายหลอดเลือด เพิ่มการตื่นตัวอย่างสดใส",
+        "ref_id": "REF031",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING017",
+        "menu_name": "ดาร์กช็อกโกแลต (70%+)",
+        "nutritional_value": "Flavanols, Magnesium, Theobromine",
+        "recommendation_reason": "ยับยั้งเอนไซม์ที่สลายสารแห่งความสุข และกระตุ้นประสาทอย่างนุ่มนวลด้วย Theobromine",
+        "ref_id": "REF032",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING018",
+        "menu_name": "เมล็ดฟักทองอบ",
+        "nutritional_value": "Zinc, Iron, Magnesium",
+        "recommendation_reason": "Zinc ช่วยยับยั้ง NMDA Receptors ยับยั้งความวิตกกังวลและยกระดับอารมณ์บวก",
+        "ref_id": "REF033",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING019",
+        "menu_name": "โยเกิร์ตรสธรรมชาติ (Greek Yogurt)",
+        "nutritional_value": "Probiotics, Protein, Calcium",
+        "recommendation_reason": "โปรตีนสูงและโปรไบโอติกส์ช่วยส่งเสริมการสร้าง Serotonin และ GABA ในลำไส้",
+        "ref_id": "REF034",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING020",
+        "menu_name": "ชีสพาร์เมซาน",
+        "nutritional_value": "L-Phenylalanine, Calcium",
+        "recommendation_reason": "L-Phenylalanine เป็นสารตั้งต้นในกระบวนการสร้าง Dopamine ในสมอง",
+        "ref_id": "REF035",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING021",
+        "menu_name": "เมล็ดทานตะวันอบ",
+        "nutritional_value": "Vitamin E, Selenium, Folate",
+        "recommendation_reason": "วิตามินอีเข้มข้นปกป้องไขมันเยื่อหุ้มเซลล์ประสาทจากการทำลายของอนุมูลอิสระ",
+        "ref_id": "REF036",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING022",
+        "menu_name": "มะเขือเทศเชอร์รี่สด",
+        "nutritional_value": "Lycopene, Beta-Carotene",
+        "recommendation_reason": "ไลโคปีนละลายในไขมัน ซึมเข้าสู่สมองเพื่อป้องกันภาวะ Neuroinflammation ได้ดี",
+        "ref_id": "REF037",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING023",
+        "menu_name": "ข้าวกล้องหอมนิล",
+        "nutritional_value": "Anthocyanin, Complex Carbs",
+        "recommendation_reason": "สารต้านอนุมูลอิสระสีม่วงเข้ม ควบคู่คาร์โบไฮเดรตเชิงซ้อนที่ให้พลังงานสมองสมดุล",
+        "ref_id": "REF038",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING024",
+        "menu_name": "เห็ดหอมสด",
+        "nutritional_value": "Vitamin D2, Ergothioneine",
+        "recommendation_reason": "วิตามินดีมีความสัมพันธ์ตรงกับการควบคุมระดับอารมณ์และการหลั่ง Serotonin",
+        "ref_id": "REF039",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING025",
+        "menu_name": "ไข่ไก่ต้มสุก",
+        "nutritional_value": "Choline, L-Tyrosine, B12",
+        "recommendation_reason": "โคลีน (Choline) สังเคราะห์ Acetylcholine ช่วยเรื่องความจำ สมาธิ และอารมณ์สดใส",
+        "ref_id": "REF040",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING026",
+        "menu_name": "ถั่วพิสตาชิโอ",
+        "nutritional_value": "Phytosterols, Pyridoxine (B6)",
+        "recommendation_reason": "Pyridoxine เป็นวิตามิน B6 ช่วยการสังเคราะห์สารสื่อประสาทกลุ่ม Monoamines",
+        "ref_id": "REF041",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING027",
+        "menu_name": "น้ำมันมะกอกเอ็กซ์ตร้าเวอร์จิน",
+        "nutritional_value": "Oleocanthal, Polyphenols",
+        "recommendation_reason": "Oleocanthal ช่วยลดการอักเสบในเซลล์สมองแบบเดียวกับกลไกต้านการอักเสบธรรมชาติ",
+        "ref_id": "REF042",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING028",
+        "menu_name": "เม็ดมะม่วงหิมพานต์อบ",
+        "nutritional_value": "Tryptophan, Magnesium",
+        "recommendation_reason": "สารตั้งต้น Tryptophan เข้มข้น ร่วมกับแมกนีเซียมที่ช่วยปรับสมดุลอารมณ์",
+        "ref_id": "REF043",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING029",
+        "menu_name": "งาขาวคั่ว",
+        "nutritional_value": "L-Sesamin, Calcium, Zinc",
+        "recommendation_reason": "แคลเซียมสูงช่วยการส่งสัญญาณประสาท (Neurotransmission) ระหว่างเซลล์",
+        "ref_id": "REF044",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "ING030",
+        "menu_name": "สาหร่ายโนริ",
+        "nutritional_value": "Iodine, Vitamin B12, Iron",
+        "recommendation_reason": "ธาตุเหล็กช่วยขนส่งออกซิเจนไปเลี้ยงสมอง ป้องกันอาการอ่อนเพลียและอารมณ์เฉา",
+        "ref_id": "REF045",
+        "status": "ตรวจแล้ว"
+      }
+    ],
+    "fruit": [
+      {
+        "item_id": "FR016",
+        "menu_name": "กล้วยหอมสด",
+        "nutritional_value": "Vitamin B6, Potassium, Tryptophan",
+        "recommendation_reason": "วิตามิน B6 เป็น Co-enzyme ที่จำเป็นที่สุดในการเปลี่ยน Tryptophan เป็น Serotonin",
+        "ref_id": "REF046",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR017",
+        "menu_name": "สตรอว์เบอร์รี่สด",
+        "nutritional_value": "Vitamin C, Anthocyanins",
+        "recommendation_reason": "Anthocyanins ป้องกันความเสื่อมของสมองส่วนที่ควบคุมอารมณ์และความจำ",
+        "ref_id": "REF047",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR018",
+        "menu_name": "อะโวคาโด",
+        "nutritional_value": "Folate (Vitamin B9), Healthy Fats",
+        "recommendation_reason": "Folate ช่วยป้องกันการสะสมของ Homocysteine ที่ขัดขวางการสังเคราะห์ Serotonin",
+        "ref_id": "REF048",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR019",
+        "menu_name": "กีวี่สีทอง",
+        "nutritional_value": "High-Density Vitamin C, Potassium",
+        "recommendation_reason": "งานวิจัยพบว่าการทานกีวี่วันละ 2 ลูกช่วยยกระดับ Mood State ได้ภายใน 4 วัน",
+        "ref_id": "REF049",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR020",
+        "menu_name": "ส้มสายน้ำผึ้ง",
+        "nutritional_value": "Hesperidin, Vitamin C",
+        "recommendation_reason": "Hesperidin เป็น Flavonoid ที่ช่วยปกป้องประสาทและกระตุ้นความรู้สึกสดชื่น",
+        "ref_id": "REF050",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR021",
+        "menu_name": "บลูเบอร์รี่สด",
+        "nutritional_value": "Flavonoids, Polyphenols",
+        "recommendation_reason": "เพิ่มการเชื่อมต่อระหว่างเซลล์ประสาท (Synaptic Plasticity) ช่วยให้สมองปลอดโปร่ง",
+        "ref_id": "REF051",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR022",
+        "menu_name": "สับปะรดภูเก็ต",
+        "nutritional_value": "Bromelain, Vitamin C, Manganese",
+        "recommendation_reason": "แมงกานีสเป็น Co-factor ในเอนไซม์ต้านอนุมูลอิสระ SOD ช่วยดูแลเซลล์สมอง",
+        "ref_id": "REF052",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR023",
+        "menu_name": "มะม่วงสุก",
+        "nutritional_value": "Beta-Carotene, Vitamin A, Sugar",
+        "recommendation_reason": "ฟรุกโตสธรรมชาติเติมพลังงานให้สมองทันที ร่วมกับเบต้าแคโรทีนบำรุงประสาท",
+        "ref_id": "REF053",
+        "status": "กำลังรวบรวม"
+      },
+      {
+        "item_id": "FR024",
+        "menu_name": "เสาวรสสด",
+        "nutritional_value": "Piceatannol, Vitamin C",
+        "recommendation_reason": "Piceatannol ต้านอนุมูลอิสระเข้มข้น รสเปรี้ยวสดชื่นกระตุ้นการตื่นตัวของสมอง",
+        "ref_id": "REF054",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR025",
+        "menu_name": "แก้วมังกรเนื้อแดง",
+        "nutritional_value": "Betacyanin, Oligosaccharides",
+        "recommendation_reason": "Betacyanin ช่วยลดภาวะ Oxidative Stress ในกระแสเลือด เสริมความสดชื่น",
+        "ref_id": "REF055",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR026",
+        "menu_name": "แอปเปิ้ลฟูจิ",
+        "nutritional_value": "Quercetin, Soluble Fiber",
+        "recommendation_reason": "Quercetin ปกป้องเซลล์สมองจากการถูกทำลายโดยภาวะความเครียดสะสม",
+        "ref_id": "REF056",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR027",
+        "menu_name": "มะละกอสุก",
+        "nutritional_value": "Papain, Vitamin C, Carotenoids",
+        "recommendation_reason": "สารต้านอนุมูลอิสระช่วยให้การทำงานของระบบประสาทและหลอดเลือดสมองราบรื่น",
+        "ref_id": "REF057",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR028",
+        "menu_name": "ราสเบอร์รี่สด",
+        "nutritional_value": "Ellagic Acid, Anthocyanins",
+        "recommendation_reason": "Ellagic Acid ช่วยลดการสร้างสารอักเสบในร่างกาย ส่งผลดีต่อจิตใจและอารมณ์",
+        "ref_id": "REF058",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR029",
+        "menu_name": "พลับสด (Persimmon)",
+        "nutritional_value": "Tannins, Vitamin A, Vitamin C",
+        "recommendation_reason": "แทนนินและวิตามินซีช่วยส่งเสริมระบบภูมิคุ้มกันและปกป้องระบบประสาท",
+        "ref_id": "REF059",
+        "status": "ตรวจแล้ว"
+      },
+      {
+        "item_id": "FR030",
+        "menu_name": "องุ่นแดงไร้เมล็ด",
+        "nutritional_value": "Resveratrol, Flavonoids",
+        "recommendation_reason": "Resveratrol กระตุ้นการทำงานของ Sirtuin proteins ช่วยบำรุงสมองและอารมณ์สดใส",
+        "ref_id": "REF060",
+        "status": "ตรวจแล้ว"
+      }
+    ]
+  }
+}
