@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FEFEFF;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-prompt);
+}
+
+/* Pastel palette — 60:30:10
+   60% snow (พื้นหลังหลัก) : 30% blush (section รอง) : 10% clay (ปุ่ม/จุดเน้น) */
+@theme {
+  --color-snow: #FEFEFF;
+  --color-blush: #FFF1E6;
+  --color-clay: #D3AB9E;
+  --color-clay-dark: #C09384;
+  --color-mocha: #5C4237;
+  --color-rosewood: #9C6650;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-prompt), Arial, Helvetica, sans-serif;
+}
