@@ -30,37 +30,72 @@ export const EMOTION_IDS: readonly EmotionId[] = ['EM01', 'EM02', 'EM03', 'EM04'
 export const CATEGORIES: readonly Category[] = ['food', 'drink', 'fruit', 'ingredient'];
 
 // ---------------------------------------------------------------------------
-// Wire types — Backend → Frontend
+// Wire types — Backend → Frontend (ตรงกับ backend/app.py จริง)
+//
+// backend ส่งชื่ออารมณ์เต็ม ("Anger"/"Happiness"/"Neutral"/"Sadness") ไม่ใช่รหัส
+// EM01-04 และจัดกลุ่มเมนูมาให้แล้วตามหมวด "dish"/"drink"/"ingredient"/"fruit"
+// (object ไม่ใช่ array แบน) — src/lib/api.ts เป็นจุดเดียวที่แปลงเป็น domain type
 // ---------------------------------------------------------------------------
 
-/** หนึ่งแถวจากตารางเมนูของ Backend */
-export interface ApiMenuItem {
-  item_id: string;
-  menu_name: string;
-  category: string;
-  emotion_id: string;
+/** ชื่อคลาสอารมณ์ตามที่โมเดล/backend ใช้จริง (backend/classes.json) */
+export type BackendEmotionKey = 'Anger' | 'Happiness' | 'Neutral' | 'Sadness';
+
+/** ชื่อหมวดอาหารตามที่ backend ใช้จริง (backend/firebase_utils.py: CATEGORY_LABELS_TH) */
+export type BackendCategory = 'dish' | 'drink' | 'ingredient' | 'fruit';
+
+/**
+ * หนึ่งแถวเมนูจาก Firebase แบบ object เต็ม (ถ้า node นั้นถูกกรอกข้อมูลไว้ครบ)
+ * ยืนยันจากการทดสอบจริงกับ Firebase ว่าปัจจุบัน food_db เก็บเป็น string ล้วน (ดู ApiMenuItem)
+ * แต่คง shape นี้ไว้เผื่อ node อื่นในอนาคตเก็บเป็น object — backend/static/result.js (legacy)
+ * ก็รองรับทั้งสองแบบอยู่แล้วเช่นกัน
+ */
+export interface ApiMenuItemObject {
+  item_id?: string | null;
+  menu_name?: string | null;
+  name?: string | null;
+  title?: string | null;
   nutritional_value?: string | null;
   recommendation_reason?: string | null;
-  image_url?: string | null;
 }
 
-/** Response ของการวิเคราะห์อารมณ์ */
+/** หนึ่งแถวเมนูจาก Firebase ตามที่ backend/app.py ส่งจริง — เป็น string ชื่อเมนูล้วน หรือ object ก็ได้ */
+export type ApiMenuItem = string | ApiMenuItemObject;
+
+/** Response สำเร็จของ POST /api/analyze (backend/app.py: api_analyze) */
 export interface ApiAnalyzeResponse {
-  emotion_id: string;
-  emotion?: string | null;
-  confidence: number;
-  /** softmax 4 คลาส — key เป็น EM01–EM04 ไม่ใช่ index */
-  probabilities?: Record<string, number> | null;
-  /** array แบน หน้าบ้านจัดกลุ่มตาม category เอง */
-  recommendations?: ApiMenuItem[] | null;
+  success: true;
+  emotion: {
+    key: BackendEmotionKey;
+    th: string;
+    en: string;
+    emoji: string;
+    desc: string;
+    /** 0–100 (เปอร์เซ็นต์) — สเกลเดียวกับ probs ห้ามคูณ/หารซ้ำฝั่งไหนอีก */
+    confidence: number;
+    /** 0–100 (เปอร์เซ็นต์) ต่อคลาส */
+    probs: Record<string, number>;
+  };
+  food_items: Partial<Record<BackendCategory, ApiMenuItem[]>>;
+  category_labels: Record<BackendCategory, string>;
+  category_icons: Record<BackendCategory, string>;
 }
 
-/** Response ตอน Backend ตอบ error */
+/** รหัส error มาตรฐานที่ backend/app.py (ฟังก์ชัน _api_error) ส่งจริง */
+export type BackendErrorCode =
+  | 'INVALID_REQUEST'
+  | 'INVALID_IMAGE'
+  | 'NO_FACE_DETECTED'
+  | 'MODEL_ERROR'
+  | 'INVALID_EMOTION'
+  | 'DATABASE_ERROR';
+
+/** Response ตอน backend ตอบ error — โครงสร้างเดียวกันทั้ง /api/analyze และ /api/recommendations */
 export interface ApiErrorResponse {
-  error?: {
-    code?: string | null;
-    message?: string | null;
-  } | null;
+  success: false;
+  error: {
+    code: BackendErrorCode;
+    message: string;
+  };
 }
 
 // ---------------------------------------------------------------------------

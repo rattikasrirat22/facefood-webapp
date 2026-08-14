@@ -8,6 +8,11 @@ numpy==1.26.4
 firebase-admin==6.5.0
 gunicorn==22.0.0
 
+# ใช้เฉพาะโดย upload_food.py (สคริปต์ maintenance สำหรับอัปโหลดข้อมูลเมนูขึ้น Firebase
+# ไม่ใช่ dependency ของตัวเว็บแอป Flask เอง จึงแยกหมวดไว้ตรงนี้)
+pandas==2.2.1
+openpyxl==3.1.2
+
 # หมายเหตุ:
 # - เพิ่ม firebase-admin ที่ขาดไปจากไฟล์เดิม (firebase_utils.py import ใช้อยู่แล้วแต่ไม่ได้ลงใน requirements.txt)
 # - เพิ่ม gunicorn สำหรับรันบน production (Flask dev server ไม่ควรใช้รับ traffic จริง)

@@ -31,7 +31,6 @@ FACE_MARGIN = 0.05  # ขยายกรอบใบหน้าออกด้�
 _face_cascade = None
 _model = None
 _class_names = None
-_clahe = None
 _device = None
 _preprocess = None
 
@@ -66,8 +65,8 @@ class POSTERModel(nn.Module):
 
 
 def load_resources():
-  """โหลดโมเดล PyTorch + Haar Cascade + CLAHE ครั้งเดียวตอน server เริ่มทำงาน"""
-  global _face_cascade, _model, _class_names, _clahe, _device, _preprocess
+  """โหลดโมเดล PyTorch + Haar Cascade ครั้งเดียวตอน server เริ่มทำงาน"""
+  global _face_cascade, _model, _class_names, _device, _preprocess
 
   if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(
@@ -117,9 +116,6 @@ def load_resources():
     raise RuntimeError("โหลด Haar Cascade ไม่สำเร็จ")
   print("✅ โหลด Haar Cascade face detector สำเร็จ")
 
-  _clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-  print("✅ ตั้งค่า CLAHE สำเร็จ")
-
 
 def get_class_names():
   return _class_names
@@ -134,14 +130,9 @@ def _expand_box(x, y, w, h, frame_w, frame_h, margin=FACE_MARGIN):
   return x1, y1, x2, y2
 
 
-def _apply_clahe_bgr(img_bgr):
-  lab = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2LAB)
-  l, a, b = cv2.split(lab)
-  l_eq = _clahe.apply(l)
-  lab_eq = cv2.merge((l_eq, a, b))
-  return cv2.cvtColor(lab_eq, cv2.COLOR_LAB2BGR)
-
-
+# ห้ามเพิ่มการปรับแสง/คอนทราสต์ใดๆ (CLAHE, equalizeHist, gamma correction ฯลฯ) ก่อนป้อน
+# ภาพเข้าโมเดลจำแนกอารมณ์ในฟังก์ชันนี้ เพราะเทรนด้วย Resize→ToTensor→Normalize เท่านั้น
+# (ดู val_transforms ใน train_model.py) เคยเกิดปัญหานี้มาแล้ว 3 ครั้ง
 def detect_and_predict(frame_bgr):
   """รับภาพ OpenCV Frame (BGR) -> ตรวจจับใบหน้า -> ทำนายอารมณ์"""
   if _model is None or _face_cascade is None:
@@ -164,7 +155,6 @@ def detect_and_predict(frame_bgr):
   if face_crop_bgr.size == 0:
     return {"face_found": False, "box": None, "probs": None, "top_emotion": "Neutral"}
 
-  face_crop_bgr = _apply_clahe_bgr(face_crop_bgr)
   face_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
 
   input_tensor = _preprocess(face_rgb).unsqueeze(0).to(_device)

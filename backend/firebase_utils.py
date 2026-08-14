@@ -99,7 +99,7 @@ def get_random_menu(emotion):
             if items:
                 items_copy = list(items)
                 random.shuffle(items_copy)
-                selected_menu[cat_key] = items_copy[:5]
+                selected_menu[cat_key] = items_copy  # ส่งทั้งหมด ไม่ตัดเหลือ 5 — frontend จัดการสุ่มแสดง/เก็บที่เหลือเอง
             else:
                 selected_menu[cat_key] = []
 

@@ -216,3 +216,41 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ============================================================
+# FaceFood Project - Security / Secrets
+# ============================================================
+
+# Firebase Admin SDK service account key — ห้าม commit เด็ดขาด (ใช้จริงใน backend/firebase_utils.py)
+firebase_key.json
+backend/firebase_key.json
+serviceAccountKey.json
+**/firebase_key.json
+**/serviceAccountKey.json
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# ============================================================
+# Frontend - Next.js
+# ============================================================
+
+frontend/node_modules/
+frontend/.next/
+node_modules/
+.next/
+
+# Local logs
+*.log
+
+# ============================================================
+# Tool-local config — session/machine-specific, not shared
+# ============================================================
+.claude/
+
+# ============================================================
+# Model weights — 48MB, keep out of git history (LFS/object storage instead)
+# ============================================================
+*.pth

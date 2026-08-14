@@ -13,6 +13,15 @@ Flow การทำงาน:
   6) /api/recommendations — สุ่มรายการเมนูอาหารใหม่ตามอารมณ์ -> ส่งคืน JSON
 """
 
+import sys
+
+# Windows console ใช้ cp1252 เป็นค่าเริ่มต้น พิมพ์ข้อความไทย/emoji (เช่น "✅ เชื่อมต่อ Firebase")
+# จะทำให้ process crash ด้วย UnicodeEncodeError ทันทีตอน import — บังคับ UTF-8 ก่อน import อื่นใด
+# (no-op บน Linux/gunicorn ที่ locale เป็น UTF-8 อยู่แล้ว)
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+
 import os
 import base64
 import numpy as np
@@ -26,8 +35,14 @@ import firebase_utils
 app = Flask(__name__)
 app.secret_key = "facefood_secret_key_emotion_ai"
 
-# เปิดใช้งาน CORS อนุญาตให้ทุก Domain/Port (เช่น Next.js Port 3000) ยิง API มาหา Backend ได้
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+# เปิดใช้งาน CORS เฉพาะ origin ที่ระบุไว้เท่านั้น (ค่าเริ่มต้น = Next.js dev server)
+# deploy จริงให้ตั้ง env var ALLOWED_ORIGINS เป็น comma-separated list เพิ่มโดเมน production
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    if origin.strip()
+]
+CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGINS}}, supports_credentials=True)
 
 # ลำดับคลาสอารมณ์หลัก
 EMOTION_ORDER = ["Anger", "Happiness", "Neutral", "Sadness"]
@@ -182,6 +197,12 @@ def remenu():
 # 2. REST API Routes (เพิ่มใหม่สำหรับรองรับ Next.js / React ของคุณมัต)
 # ==============================================================================
 
+# รหัส error มาตรฐานของ REST API ตัวนี้ — ให้ Frontend map เป็นข้อความ/หน้าจอได้แน่นอน
+# โดยไม่ต้อง parse ข้อความภาษาไทยอิสระ หรือเดาความหมาย
+def _api_error(code, message, status=400):
+    return jsonify({"success": False, "error": {"code": code, "message": message}}), status
+
+
 @app.route("/api/analyze", methods=["POST"])
 def api_analyze():
     """
@@ -192,37 +213,44 @@ def api_analyze():
     """
     payload = request.get_json(silent=True)
     if not payload or "image" not in payload:
-        return jsonify({"success": False, "error": "ไม่พบข้อมูลภาพ (image) ใน request"}), 400
+        return _api_error("INVALID_REQUEST", "ไม่พบข้อมูลภาพ (image) ใน request")
 
     try:
         frame = _decode_base64_image(payload["image"])
     except Exception:
-        return jsonify({"success": False, "error": "แปลงข้อมูลภาพไม่สำเร็จ"}), 400
+        return _api_error("INVALID_IMAGE", "แปลงข้อมูลภาพไม่สำเร็จ")
 
     if frame is None:
-        return jsonify({"success": False, "error": "ถอดรหัสภาพไม่สำเร็จ"}), 400
+        return _api_error("INVALID_IMAGE", "ถอดรหัสภาพไม่สำเร็จ")
 
-    # 1. ทำนายอารมณ์จาก AI
-    prediction = model_utils.predict_emotion_from_bgr(frame)
-    if not prediction.get("success", False):
-        return jsonify({"success": False, "error": prediction.get("error", "วิเคราะห์ใบหน้าไม่สำเร็จ")}), 400
+    # 1. ทำนายอารมณ์จาก AI — detect_and_predict() คืนคีย์ face_found ไม่ใช่ success
+    #    (ห่อ try/except เพราะ inference ของ PyTorch ไม่มีการดักข้อผิดพลาดภายในให้เอง)
+    try:
+        prediction = model_utils.predict_emotion_from_bgr(frame)
+    except Exception as e:
+        print(f"⚠️ Model inference error: {e}")
+        return _api_error("MODEL_ERROR", "ประมวลผลโมเดล AI ไม่สำเร็จ", status=500)
+
+    if not prediction.get("face_found"):
+        return _api_error("NO_FACE_DETECTED", "ไม่พบใบหน้าในภาพ")
 
     top_emotion = prediction.get("top_emotion", "Neutral")
-    probs = prediction.get("probs", {})
-    confidence = int(probs.get(top_emotion, 0) * 100) if probs else 0
+    probs = prediction.get("probs") or {}
+    # probs จาก model_utils เป็นสเกล 0-100 (เปอร์เซ็นต์) อยู่แล้ว — ห้ามคูณ 100 ซ้ำ
+    confidence = probs.get(top_emotion, 0)
 
-    # 2. บันทึก Log การใช้งานลง Firebase
+    # 2. บันทึก Log การใช้งานลง Firebase (ไม่ critical ต่อผลลัพธ์หลัก จึงไม่ทำให้ request ล้มเหลว)
     try:
         firebase_utils.log_usage_stat(top_emotion)
     except Exception as e:
         print(f"⚠️ บันทึก Stat ไม่สำเร็จ: {e}")
 
-    # 3. ดึงเมนูอาหารสุ่มตามอารมณ์
+    # 3. ดึงเมนูอาหารสุ่มตามอารมณ์ — Firebase ใช้ไม่ได้ให้ error ตรง ๆ แทนคืนเมนูว่างเงียบ ๆ
     try:
         food_items = firebase_utils.get_random_menu(top_emotion)
     except Exception as e:
-        food_items = {}
         print(f"⚠️ ดึงข้อมูลเมนูไม่สำเร็จ: {e}")
+        return _api_error("DATABASE_ERROR", "ดึงข้อมูลเมนูจาก Firebase ไม่สำเร็จ", status=502)
 
     meta = EMOTION_META.get(top_emotion, EMOTION_META["Neutral"])
 
@@ -235,7 +263,7 @@ def api_analyze():
             "en": meta["en"],
             "emoji": meta["emoji"],
             "desc": meta["desc"],
-            "confidence": confidence,
+            "confidence": confidence,  # 0-100 (เปอร์เซ็นต์) สเกลเดียวกับ probs
             "probs": probs
         },
         "food_items": food_items,
@@ -251,13 +279,15 @@ def api_recommendations():
     emotion = payload.get("emotion") if payload else None
 
     if emotion not in EMOTION_META:
-        return jsonify({"success": False, "error": "ค่าอารมณ์ไม่ถูกต้อง"}), 400
+        return _api_error("INVALID_EMOTION", f"ค่าอารมณ์ไม่ถูกต้อง: {emotion}")
 
     try:
         food_items = firebase_utils.get_random_menu(emotion)
-        return jsonify({"success": True, "food_items": food_items})
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        print(f"⚠️ ดึงข้อมูลเมนูไม่สำเร็จ: {e}")
+        return _api_error("DATABASE_ERROR", "ดึงข้อมูลเมนูจาก Firebase ไม่สำเร็จ", status=502)
+
+    return jsonify({"success": True, "food_items": food_items})
 
 
 # ==============================================================================
