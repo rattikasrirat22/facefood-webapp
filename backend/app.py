@@ -23,6 +23,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stderr.reconfigure(encoding="utf-8")
 
 import os
+import secrets
 import base64
 import numpy as np
 import cv2
@@ -31,9 +32,11 @@ from flask_cors import CORS
 
 import model_utils
 import firebase_utils
-    
+
 app = Flask(__name__)
-app.secret_key = "facefood_secret_key_emotion_ai"
+# production ควรตั้ง FLASK_SECRET_KEY เป็น env var คงที่ — ถ้าไม่ตั้งจะสุ่มใหม่ทุกครั้งที่ process
+# เริ่ม (session เดิมจะ invalid หลัง restart/deploy ใหม่ แต่ยังปลอดภัยกว่า hardcode ค่าคงที่)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", secrets.token_hex(32))
 
 # เปิดใช้งาน CORS เฉพาะ origin ที่ระบุไว้เท่านั้น (ค่าเริ่มต้น = Next.js dev server)
 # deploy จริงให้ตั้ง env var ALLOWED_ORIGINS เป็น comma-separated list เพิ่มโดเมน production

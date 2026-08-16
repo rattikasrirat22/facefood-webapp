@@ -25,6 +25,11 @@ DEFAULT_CLASSES_PATH = os.path.join(CURRENT_DIR, "models", "classes.json")
 MODEL_PATH = os.environ.get("MODEL_PATH", DEFAULT_MODEL_PATH)
 CLASSES_PATH = os.environ.get("CLASSES_PATH", DEFAULT_CLASSES_PATH)
 
+# ใช้ตอนไม่พบไฟล์โมเดล local (เช่น deploy บน Cloud Run ที่ไม่ได้ bake โมเดล 48MB เข้า image)
+# ดาวน์โหลดจาก Google Cloud Storage มาเก็บที่ MODEL_PATH ก่อนโหลดเข้า torch — ดู _ensure_model_file()
+GCS_MODEL_BUCKET = os.environ.get("GCS_MODEL_BUCKET")
+GCS_MODEL_BLOB = os.environ.get("GCS_MODEL_BLOB", "best_resnet18_attention_emotion.pth")
+
 IMG_SIZE = 224
 FACE_MARGIN = 0.05  # ขยายกรอบใบหน้าออกด้านละ 5% กันตัดคาง/หน้าผากตกขอบ
 
@@ -64,14 +69,32 @@ class POSTERModel(nn.Module):
     return out
 
 
+def _ensure_model_file():
+  """local-first: ถ้ามีไฟล์อยู่แล้วไม่ทำอะไร ถ้าไม่มีและตั้ง GCS_MODEL_BUCKET ไว้ ค่อยดาวน์โหลดมาเก็บที่ MODEL_PATH"""
+  if os.path.exists(MODEL_PATH) or not GCS_MODEL_BUCKET:
+    return
+
+  from google.cloud import storage  # import ตรงนี้ เพราะใช้เฉพาะ path นี้ ไม่ใช่ dev แบบมีไฟล์ local
+
+  os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+  print(f"☁️  ไม่พบไฟล์โมเดล local — กำลังดาวน์โหลดจาก gs://{GCS_MODEL_BUCKET}/{GCS_MODEL_BLOB} ...")
+  client = storage.Client()
+  bucket = client.bucket(GCS_MODEL_BUCKET)
+  blob = bucket.blob(GCS_MODEL_BLOB)
+  blob.download_to_filename(MODEL_PATH)
+  print(f"✅ ดาวน์โหลดโมเดลจาก GCS สำเร็จ: {MODEL_PATH}")
+
+
 def load_resources():
   """โหลดโมเดล PyTorch + Haar Cascade ครั้งเดียวตอน server เริ่มทำงาน"""
   global _face_cascade, _model, _class_names, _device, _preprocess
 
+  _ensure_model_file()
+
   if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(
         f"ไม่พบไฟล์โมเดลที่ {MODEL_PATH} — วางไฟล์ best_resnet18_attention_emotion.pth "
-        f"ไว้ในโฟลเดอร์ models/ ก่อนรัน app.py"
+        f"ไว้ในโฟลเดอร์ models/ ก่อนรัน app.py (หรือตั้ง GCS_MODEL_BUCKET ให้ดาวน์โหลดอัตโนมัติ)"
     )
   if not os.path.exists(CLASSES_PATH):
     raise FileNotFoundError(
