@@ -40,15 +40,19 @@ if not firebase_key_path:
             break
 
 if not firebase_admin._apps:
-    if firebase_key_path and os.path.exists(firebase_key_path):
-        try:
+    try:
+        if firebase_key_path and os.path.exists(firebase_key_path):
             cred = credentials.Certificate(firebase_key_path)
-            firebase_admin.initialize_app(cred, {
-                'databaseURL': 'https://mood-food-561f6-default-rtdb.asia-southeast1.firebasedatabase.app/'
-            })
-            print(f"✅ เชื่อมต่อ Firebase Realtime Database สำเร็จ: {firebase_key_path}")
-        except Exception as e:
-            print(f"⚠️ ไม่สามารถเชื่อมต่อ Firebase ได้: {e}")
+            auth_source = firebase_key_path
+        else:
+            cred = credentials.ApplicationDefault()
+            auth_source = "Application Default Credentials"
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': 'https://mood-food-561f6-default-rtdb.asia-southeast1.firebasedatabase.app/'
+        })
+        print(f"Firebase initialized via: {auth_source}")
+    except Exception as e:
+        print(f"Firebase initialization failed: {e}")
 
 # -------------------------------------------------------------
 # 2. Config ค่าหมวดหมู่และ Mapping อารมณ์
