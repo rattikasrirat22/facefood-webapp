@@ -1,0 +1,7 @@
+firebase_key.json
+serviceAccountKey.json
+models/*.pth
+__pycache__/
+*.pyc
+.git/
+.gitignore
