@@ -91,6 +91,7 @@ export default function AnalyzePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const autoStartedRef = useRef(false);
   const [stage, setStage] = useState<Stage>('idle');
 
   /** ปิดกล้องและยกเลิก request ที่ค้างอยู่ — เรียกซ้ำได้ปลอดภัย */
@@ -108,6 +109,36 @@ export default function AnalyzePage() {
     },
     [releaseCamera, router],
   );
+
+  const startAnalysis = useCallback(async () => {
+    setStage('requesting');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user' },
+      });
+      streamRef.current = stream;
+      setStage('detecting');
+    } catch (error) {
+      const name = error instanceof DOMException ? error.name : '';
+      const reason =
+        name === 'NotAllowedError'
+          ? 'camera-denied'
+          : name === 'NotFoundError' || name === 'OverconstrainedError'
+            ? 'no-camera'
+            : 'unknown';
+      setStage('idle');
+      goToError(reason);
+    }
+  }, [goToError]);
+
+  // ขอสิทธิ์กล้องอัตโนมัติทันทีที่เข้าหน้านี้ — ครั้งเดียวต่อการ mount จริง (กัน React
+  // Strict Mode เรียกซ้ำตอน dev ด้วย ref guard) ปุ่ม Start analysis ด้านล่างยังอยู่เป็น
+  // fallback ให้กดเองตอน retry (เช่นหลังกด "ยกเลิก") โดยไม่ auto-trigger ซ้ำอีก
+  useEffect(() => {
+    if (autoStartedRef.current) return;
+    autoStartedRef.current = true;
+    startAnalysis();
+  }, [startAnalysis]);
 
   // ปิดกล้องเสมอเมื่อออกจากหน้า
   useEffect(() => releaseCamera, [releaseCamera]);
@@ -209,27 +240,6 @@ export default function AnalyzePage() {
       cancelled = true;
     };
   }, [stage, goToError, releaseCamera, router]);
-
-  const startAnalysis = async () => {
-    setStage('requesting');
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user' },
-      });
-      streamRef.current = stream;
-      setStage('detecting');
-    } catch (error) {
-      const name = error instanceof DOMException ? error.name : '';
-      const reason =
-        name === 'NotAllowedError'
-          ? 'camera-denied'
-          : name === 'NotFoundError' || name === 'OverconstrainedError'
-            ? 'no-camera'
-            : 'unknown';
-      setStage('idle');
-      goToError(reason);
-    }
-  };
 
   const cancelAnalysis = () => {
     releaseCamera();
