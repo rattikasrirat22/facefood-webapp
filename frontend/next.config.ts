@@ -5,8 +5,11 @@ import type { NextConfig } from 'next';
  *
  * ดึงโฮสต์มาจาก NEXT_PUBLIC_API_BASE_URL อัตโนมัติ จะได้ไม่ต้องแก้ไฟล์นี้ซ้ำ
  * ถ้า Backend เสิร์ฟรูปจากคนละโดเมนกับ API (เช่น S3 หรือ CDN) ให้เพิ่มเข้าไปใน extraImageHosts
+ *
+ * upload.wikimedia.org: รูปเมนู/วัตถุดิบใน food_db อ้างอิงจาก Wikimedia Commons
+ * (ดู backend Master dataset — image_url ทุกรายการเป็นลิงก์ upload.wikimedia.org)
  */
-const extraImageHosts: string[] = [];
+const extraImageHosts: string[] = ['https://upload.wikimedia.org'];
 
 function buildRemotePatterns() {
   const origins = new Set<string>(extraImageHosts);

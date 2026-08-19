@@ -25,7 +25,10 @@ import type {
 import { EMOTION_IDS } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
-const API_TIMEOUT_MS = Number(process.env.NEXT_PUBLIC_API_TIMEOUT_MS) || 30000;
+// default 90s (เดิม 30s) — Cloud Run cold start วัดจริงพบ request แรกช้าได้ถึง ~25s+ บน route
+// เปล่าๆ (ยังไม่รวม inference/Firebase) จึงต้องมี margin พอให้ cold request ไม่ถูกตัดก่อนสำเร็จ
+// ยังปรับผ่าน NEXT_PUBLIC_API_TIMEOUT_MS ได้เหมือนเดิม และยังคงมี timeout เสมอ ไม่ใช่ unlimited
+const API_TIMEOUT_MS = Number(process.env.NEXT_PUBLIC_API_TIMEOUT_MS) || 90000;
 
 const EMOTION_KEY_TO_ID: Record<BackendEmotionKey, EmotionId> = {
   Anger: 'EM01',
@@ -124,6 +127,7 @@ function mapFoodItems(
         emotionId,
         nutritionalValue: (typeof raw === 'object' && raw.nutritional_value) || '',
         recommendationReason: (typeof raw === 'object' && raw.recommendation_reason) || '',
+        imageUrl: (typeof raw === 'object' && raw.image_url) || undefined,
       });
     });
   }

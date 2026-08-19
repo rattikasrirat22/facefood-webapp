@@ -28,7 +28,7 @@ const stageMessages: Record<Stage, string> = {
   idle: '',
   requesting: 'กำลังขอสิทธิ์เข้าถึงกล้อง...',
   detecting: 'กำลังตรวจจับใบหน้า...',
-  analyzing: 'กำลังวิเคราะห์อารมณ์...',
+  analyzing: 'กำลังวิเคราะห์อารมณ์... (ครั้งแรกอาจใช้เวลานานกว่าปกติ)',
 };
 
 type FaceDetectorLike = new () => {

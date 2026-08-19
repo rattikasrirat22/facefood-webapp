@@ -5,3 +5,13 @@ __pycache__/
 *.pyc
 .git/
 .gitignore
+
+# Local dataset-preparation / one-off Firebase tooling — not runtime
+# dependencies of app.py; excluded so they don't bloat the deploy image
+FaceFood_Master_240.xlsx
+firebase_payload_dryrun_2026-08-19_1835.json
+firebase_image_payload_dryrun_2026-08-19.json
+firebase_image_update_paths_dryrun_2026-08-19.json
+generate_firebase_payload.py
+upload_firebase_payload.py
+upload_firebase_images.py

@@ -56,6 +56,7 @@ export interface ApiMenuItemObject {
   title?: string | null;
   nutritional_value?: string | null;
   recommendation_reason?: string | null;
+  image_url?: string | null;
 }
 
 /** หนึ่งแถวเมนูจาก Firebase ตามที่ backend/app.py ส่งจริง — เป็น string ชื่อเมนูล้วน หรือ object ก็ได้ */
