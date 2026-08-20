@@ -203,7 +203,6 @@ Runs at `http://localhost:5000` by default. Requires the trained model weights (
 
 **Frontend** — see [`frontend/.env.example`](frontend/.env.example):
 - `NEXT_PUBLIC_API_BASE_URL`
-- `NEXT_PUBLIC_USE_MOCK`
 - `NEXT_PUBLIC_API_TIMEOUT_MS`
 
 **Backend** — configured via environment variables (no `backend/.env.example` exists yet; recommended as a follow-up):
@@ -233,7 +232,7 @@ No secret values are included here or anywhere in this repository.
 - The model classifies only 4 broad emotion categories; it does not capture nuanced or mixed emotional states.
 - Some client-side error states (e.g. `low-light`, `distance`) exist in the UI but are not yet wired up to real detection logic on either the frontend or backend.
 - Food recommendations are informational and are not personalized beyond the detected emotion category.
-- Halal-aware dataset preparation is currently being developed for a future dataset update — the production food dataset does not yet carry finalized halal classification data.
+- The production food dataset has been reviewed and corrected for identified halal-sensitive menu naming issues. The system does not currently provide formal halal certification metadata.
 
 ---
 
@@ -255,4 +254,4 @@ FaceFood is an academic/educational project built for a university course/intern
 
 ## License
 
-License: To be decided before public release.
+MIT — see [LICENSE](LICENSE).

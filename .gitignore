@@ -228,6 +228,14 @@ serviceAccountKey.json
 **/firebase_key.json
 **/serviceAccountKey.json
 
+# Generic credential-file protection (defense in depth — no specific file currently
+# matches these, but covers any differently-named service-account/cert file)
+*.pem
+*.key
+credentials*.json
+service-account*.json
+service_account*.json
+
 # Environment variables
 .env
 .env.*
@@ -254,3 +262,14 @@ node_modules/
 # Model weights — 48MB, keep out of git history (LFS/object storage instead)
 # ============================================================
 *.pth
+
+# ============================================================
+# FaceFood local working artifacts — dataset prep / one-off Firebase tooling,
+# not part of the deployed app, never intended for version control
+# ============================================================
+backup/
+backend/FaceFood_Master_240.xlsx
+backend/firebase_*dryrun*.json
+backend/generate_firebase_payload.py
+backend/upload_firebase_payload.py
+backend/upload_firebase_images.py

@@ -89,6 +89,18 @@ def load_resources():
   """โหลดโมเดล PyTorch + Haar Cascade ครั้งเดียวตอน server เริ่มทำงาน"""
   global _face_cascade, _model, _class_names, _device, _preprocess
 
+  # ป้องกัน CPU thread oversubscription บน Cloud Run (1 vCPU): PyTorch/OpenCV
+  # จะตั้งค่า thread pool ตาม core ของ host เครื่องจริงโดย default ไม่ใช่ตาม cgroup quota
+  # ที่ container ได้รับจริง — ต้อง set ตรงนี้ก่อนมี parallel work ใดๆ เกิดขึ้น (ก่อน torch.load /
+  # model construction / cv2 ใดๆ ทั้งหมด)
+  torch.set_num_threads(1)
+  cv2.setNumThreads(1)
+  print(
+      f"🧵 Thread limits — torch.num_threads={torch.get_num_threads()}, "
+      f"torch.num_interop_threads={torch.get_num_interop_threads()}, "
+      f"cv2.numThreads={cv2.getNumThreads()}, os.cpu_count()={os.cpu_count()}"
+  )
+
   _ensure_model_file()
 
   if not os.path.exists(MODEL_PATH):

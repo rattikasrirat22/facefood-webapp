@@ -5,7 +5,7 @@ upload_food.py
 โดยจัดโครงสร้างรองรับคุณค่าทางโภชนาการ (nutritional_value),
 เหตุผลเชิงโภชนบำบัด (recommendation_reason) และรหัสอ้างอิงวิจัย (ref_id)
 
-หมายเหตุ (คัดลอกมาจาก D:\\Final Project\\EmotionFoodAI\\src\\ui\\upload_food.py แล้วแก้ไข):
+หมายเหตุ (ดัดแปลงมาจาก upload script เวอร์ชันก่อนหน้าของโปรเจกต์):
 - เปลี่ยนจากอ่าน food_db.csv → food_db.xlsx (pd.read_excel) ตามไฟล์ต้นทางจริงที่มี
 - แก้ category key "food" → "dish" ให้ตรงกับ CATEGORY_LABELS_TH ใน firebase_utils.py
   (ต้นฉบับเดิมเขียน "food" ซึ่งไม่ตรงกับที่ get_random_menu() อ่าน "dish" — อัปโหลดสำเร็จ
