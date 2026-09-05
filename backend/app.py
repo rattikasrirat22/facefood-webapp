@@ -27,7 +27,7 @@ import secrets
 import base64
 import numpy as np
 import cv2
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, send_from_directory
 from flask_cors import CORS
 
 import model_utils
@@ -87,6 +87,25 @@ def _decode_base64_image(data_url):
     np_arr = np.frombuffer(img_bytes, dtype=np.uint8)
     frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     return frame
+
+
+# ==============================================================================
+# Static menu images (Phase 11E assets) — เสิร์ฟจาก backend/static/menu-images/
+# แยก route ออกมาต่างหากเฉพาะพาธนี้ เพื่อใส่ Cache-Control แบบ immutable 1 ปี
+# (ไฟล์รูปเมนูไม่เปลี่ยนเนื้อหาในชื่อเดิม) — ไม่กระทบ /static/ ปกติ หรือ response อื่นใด
+# ==============================================================================
+MENU_IMAGES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "menu-images")
+
+
+@app.route("/static/menu-images/<path:filename>")
+def menu_image(filename):
+    """เสิร์ฟไฟล์รูปเมนู Phase 11E พร้อม Cache-Control: public, max-age=31536000, immutable
+    - send_from_directory ป้องกัน path traversal และคืน 404 อัตโนมัติถ้าไม่พบไฟล์
+    - บังคับ mimetype=image/webp เอง ไม่พึ่ง mimetypes ของ OS (python:3.12-slim อาจไม่มี
+      /etc/mime.types ทำให้เดา .webp ไม่ออก) โฟลเดอร์นี้มีแต่ไฟล์ .webp เท่านั้น"""
+    response = send_from_directory(MENU_IMAGES_DIR, filename, mimetype="image/webp")
+    response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    return response
 
 
 # ==============================================================================
