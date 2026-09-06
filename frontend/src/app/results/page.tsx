@@ -31,10 +31,11 @@ const moodIcons: Record<EmotionId, typeof IconMoodSmile> = {
 };
 
 const categories: { key: Category; label: string; icon: typeof IconToolsKitchen2 }[] = [
-  { key: 'food', label: 'อาหารจานหลัก', icon: IconToolsKitchen2 },
-  { key: 'ingredient', label: 'วัตถุดิบ', icon: IconLeaf },
-  { key: 'drink', label: 'เครื่องดื่ม', icon: IconCup },
-  { key: 'fruit', label: 'ผลไม้', icon: IconApple },
+  // key ต้องตรงกับ Category ที่ผูกกับ backend (dish→food) — เปลี่ยนได้เฉพาะ label
+  { key: 'food', label: 'Food', icon: IconToolsKitchen2 },
+  { key: 'ingredient', label: 'Ingredients', icon: IconLeaf },
+  { key: 'drink', label: 'Drinks', icon: IconCup },
+  { key: 'fruit', label: 'Fruits', icon: IconApple },
 ];
 
 // ---------------------------------------------------------------------------
@@ -90,10 +91,10 @@ export default function ResultsPage() {
         className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
       >
         <IconArrowLeft size={18} />
-        กลับหน้าแรก
+        Back to home
       </Link>
 
-      <h1 className="sr-only">ผลวิเคราะห์อารมณ์และเมนูแนะนำ</h1>
+      <h1 className="sr-only">Expression result and recommended items</h1>
 
       {/* Emotion result card */}
       <div className="mt-6 bg-snow border border-clay/25 rounded-2xl p-6 md:p-8">
@@ -106,12 +107,9 @@ export default function ResultsPage() {
               <MoodIcon size={36} stroke={1.6} />
             </div>
             <div className="min-w-0">
-              <p className="text-sm text-gray-500">อารมณ์ที่ตรวจพบ</p>
-              <p className="mt-0.5">
-                <span className="text-2xl md:text-3xl font-bold text-gray-900">
-                  {meta.labelTh}
-                </span>{' '}
-                <span className="text-lg text-gray-500">{meta.labelEn}</span>
+              <p className="text-sm text-gray-500">Detected expression</p>
+              <p className="mt-0.5 text-2xl md:text-3xl font-bold text-gray-900">
+                {meta.label}
               </p>
             </div>
           </div>
@@ -119,7 +117,7 @@ export default function ResultsPage() {
             <p className="text-4xl md:text-5xl font-bold text-rosewood tabular-nums">
               {confidencePercent}%
             </p>
-            <p className="text-xs text-gray-500 mt-1">ความมั่นใจ</p>
+            <p className="text-xs text-gray-500 mt-1">Confidence</p>
           </div>
         </div>
 
@@ -129,7 +127,7 @@ export default function ResultsPage() {
           aria-expanded={showDetail}
           className="mt-5 flex items-center gap-1 text-sm text-rosewood hover:text-mocha transition-colors"
         >
-          ดูรายละเอียดผลวิเคราะห์ (%)
+          View confidence breakdown
           <IconChevronDown
             size={16}
             className={`transition-transform ${showDetail ? 'rotate-180' : ''}`}
@@ -146,7 +144,7 @@ export default function ResultsPage() {
                 return (
                   <div key={id} className="flex items-center gap-3">
                     <span className="w-24 text-sm text-gray-700 shrink-0">
-                      {EMOTION_META[id].labelTh}
+                      {EMOTION_META[id].label}
                     </span>
                     <div className="flex-1 h-2.5 bg-blush rounded-full overflow-hidden">
                       <div
@@ -162,7 +160,7 @@ export default function ResultsPage() {
               })
             ) : (
               <p className="text-sm text-gray-500">
-                ระบบไม่ได้ส่งค่าความน่าจะเป็นของแต่ละอารมณ์มาในครั้งนี้
+                A per-category breakdown was not returned for this analysis.
               </p>
             )}
           </div>
@@ -173,7 +171,7 @@ export default function ResultsPage() {
       <div className="mt-10">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
           <IconToolsKitchen2 size={22} className="text-mocha" />
-          เมนูแนะนำสำหรับคุณ
+          Recommended for you
         </h2>
 
         {/* Category tabs */}
@@ -208,8 +206,10 @@ export default function ResultsPage() {
           </div>
         ) : (
           <div className="mt-6 bg-blush/40 border border-clay/25 rounded-2xl p-10 text-center">
-            <p className="text-gray-700">ยังไม่มีรายการแนะนำในหมวดนี้</p>
-            <p className="mt-1 text-sm text-gray-500">ลองเลือกหมวดอื่น หรือวิเคราะห์อีกครั้ง</p>
+            <p className="text-gray-700">No items in this category yet</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Try another category, or analyze again.
+            </p>
           </div>
         )}
 
@@ -222,7 +222,7 @@ export default function ResultsPage() {
               className="flex items-center gap-2 border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
             >
               <IconDice5 size={20} stroke={1.8} />
-              สุ่มเมนูใหม่
+              Shuffle suggestions
             </button>
           )}
           <button
@@ -231,7 +231,7 @@ export default function ResultsPage() {
             className="flex items-center gap-2 bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
           >
             <IconRefresh size={20} stroke={1.8} />
-            วิเคราะห์อีกครั้ง
+            Analyze again
           </button>
         </div>
       </div>
@@ -245,7 +245,7 @@ function ResultsSkeleton() {
     <section
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 animate-pulse"
       aria-busy="true"
-      aria-label="กำลังโหลดผลวิเคราะห์"
+      aria-label="Loading analysis result"
     >
       <div className="h-5 w-28 bg-blush rounded-full" />
 

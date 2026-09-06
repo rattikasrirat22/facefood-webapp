@@ -14,7 +14,8 @@ const prompt = Prompt({
 
 export const metadata: Metadata = {
   title: 'FaceFood - Emotion-Based Food Recommendation',
-  description: 'Analyze your mood and get personalized food recommendations',
+  description:
+    'Facial expression analysis that suggests food, drinks, ingredients, and fruits.',
 };
 
 export default function RootLayout({

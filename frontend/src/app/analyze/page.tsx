@@ -18,17 +18,17 @@ import { RESULT_STORAGE_KEY } from '@/lib/session';
 type Stage = 'idle' | 'requesting' | 'detecting' | 'analyzing';
 
 const tips = [
-  { icon: IconUser, text: 'สแกนได้ครั้งละ 1 คน' },
-  { icon: IconFaceId, text: 'วางใบหน้าให้อยู่ในกรอบ' },
-  { icon: IconBulb, text: 'อยู่ในที่ที่มีแสงเพียงพอ' },
-  { icon: IconRuler2, text: 'ห่างจากกล้อง 0.5–1.5 ม.' },
+  { icon: IconUser, text: 'One person per scan' },
+  { icon: IconFaceId, text: 'Keep your face inside the frame' },
+  { icon: IconBulb, text: 'Find a well-lit spot' },
+  { icon: IconRuler2, text: 'Stay 0.5–1.5 m from the camera' },
 ];
 
 const stageMessages: Record<Stage, string> = {
   idle: '',
-  requesting: 'กำลังขอสิทธิ์เข้าถึงกล้อง...',
-  detecting: 'กำลังตรวจจับใบหน้า...',
-  analyzing: 'กำลังวิเคราะห์อารมณ์... (ครั้งแรกอาจใช้เวลานานกว่าปกติ)',
+  requesting: 'Requesting camera access...',
+  detecting: 'Detecting your face...',
+  analyzing: 'Analyzing your expression... (the first run may take longer)',
 };
 
 type FaceDetectorLike = new () => {
@@ -256,10 +256,10 @@ export default function AnalyzePage() {
         className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
       >
         <IconArrowLeft size={18} />
-        กลับหน้าแรก
+        Back to home
       </Link>
 
-      <h1 className="sr-only">วิเคราะห์อารมณ์จากใบหน้า</h1>
+      <h1 className="sr-only">Facial expression analysis</h1>
 
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
         {/* Left: Camera panel */}
@@ -272,7 +272,7 @@ export default function AnalyzePage() {
                   autoPlay
                   playsInline
                   muted
-                  aria-label="ภาพสดจากกล้องหน้า"
+                  aria-label="Live preview from the front camera"
                   className="absolute inset-0 w-full h-full object-cover -scale-x-100"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent pt-16 pb-6 text-center">
@@ -291,9 +291,9 @@ export default function AnalyzePage() {
                     stageMessages.requesting
                   ) : (
                     <>
-                      กดปุ่มด้านขวาเพื่อเปิดกล้อง
+                      Press Start analysis to turn on
                       <br />
-                      และเริ่มวิเคราะห์อารมณ์
+                      your camera and begin
                     </>
                   )}
                 </p>
@@ -305,8 +305,10 @@ export default function AnalyzePage() {
         {/* Right: Tips + CTA */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-blush/40 border border-clay/25 rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-gray-900">คำแนะนำก่อนสแกน</h2>
-            <p className="mt-1 text-sm text-gray-500">ทำตามเพื่อผลลัพธ์ที่แม่นยำที่สุด</p>
+            <h2 className="text-lg font-semibold text-gray-900">Before you scan</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Follow these for the most reliable result
+            </p>
 
             <ul className="mt-6 space-y-4">
               {tips.map((tip) => (
@@ -322,7 +324,7 @@ export default function AnalyzePage() {
 
           <p className="flex items-center gap-2 text-sm text-gray-500">
             <IconLock size={16} />
-            ไม่ต้องสมัครสมาชิก · ไม่มีการบันทึกภาพหรือข้อมูล
+            No sign-up · no images or data stored
           </p>
 
           {busy ? (
@@ -331,7 +333,7 @@ export default function AnalyzePage() {
               onClick={cancelAnalysis}
               className="block w-fit min-w-44 text-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
             >
-              ยกเลิก
+              Cancel
             </button>
           ) : (
             <button

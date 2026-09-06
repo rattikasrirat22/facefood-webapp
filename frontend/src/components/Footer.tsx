@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="text-center">
           <p>&copy; 2026 FaceFood. All rights reserved.</p>
           <p className="text-sm text-blush/70 mt-2">
-            ไม่ต้องสมัครสมาชิก · ไม่มีการบันทึกภาพ
+            No sign-up · no images stored
           </p>
         </div>
       </div>

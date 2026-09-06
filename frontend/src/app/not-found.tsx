@@ -9,9 +9,11 @@ export default function NotFound() {
           <IconMapSearch size={40} stroke={1.6} className="text-rosewood" />
         </div>
 
-        <h1 className="mt-6 text-2xl md:text-3xl font-bold text-gray-900">ไม่พบหน้าที่คุณกำลังหา</h1>
+        <h1 className="mt-6 text-2xl md:text-3xl font-bold text-gray-900">
+          Page not found
+        </h1>
         <p className="mt-3 text-gray-600 leading-relaxed">
-          ลิงก์อาจพิมพ์ผิด หรือหน้านี้ถูกย้ายไปแล้ว
+          The link may be mistyped, or this page may have moved.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -19,13 +21,13 @@ export default function NotFound() {
             href="/"
             className="inline-flex items-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
           >
-            กลับหน้าแรก
+            Back to home
           </Link>
           <Link
             href="/analyze"
             className="inline-flex items-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
           >
-            เริ่มวิเคราะห์อารมณ์
+            Start analysis
           </Link>
         </div>
       </div>
