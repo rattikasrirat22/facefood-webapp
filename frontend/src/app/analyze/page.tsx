@@ -250,10 +250,12 @@ export default function AnalyzePage() {
   const busy = stage !== 'idle';
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+      {/* ต่ำกว่า md ปุ่มย้อนกลับอยู่บน toolbar ของ Header แล้ว จึงซ่อนลิงก์นี้กันซ้ำ
+          ปลายทางยังเป็น "/" เหมือนเดิม ไม่ได้เปลี่ยน navigation */}
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
+        className="hidden md:inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
       >
         <IconArrowLeft size={18} />
         Back to home
@@ -261,10 +263,14 @@ export default function AnalyzePage() {
 
       <h1 className="sr-only">Facial expression analysis</h1>
 
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+      <div className="mt-0 md:mt-6 grid grid-cols-1 lg:grid-cols-5 gap-5 md:gap-8 items-center">
         {/* Left: Camera panel */}
         <div className="lg:col-span-3">
-          <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-[#3F3128]">
+          {/* ต่ำกว่า md ใช้สัดส่วนแนวตั้ง 3/4 ให้เข้ากับใบหน้าและถือมือถือแนวตั้ง
+              จำกัดความกว้างไว้เพื่อไม่ให้กรอบสูงจนเกินจอในช่วง 430–767px
+              (เป็นการจำกัดความกว้าง ความสูงยังคำนวณจากสัดส่วน ไม่ได้ fix ความสูง)
+              ตั้งแต่ md ขึ้นไปกลับเป็น 4/3 เต็มความกว้างแบบเดิมทุกประการ */}
+          <div className="relative w-full max-w-sm sm:max-w-md md:max-w-none mx-auto md:mx-0 aspect-[3/4] md:aspect-[4/3] rounded-3xl overflow-hidden bg-[#3F3128]">
             {cameraOn ? (
               <>
                 <video
@@ -275,14 +281,16 @@ export default function AnalyzePage() {
                   aria-label="Live preview from the front camera"
                   className="absolute inset-0 w-full h-full object-cover -scale-x-100"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent pt-16 pb-6 text-center">
+                {/* ลด padding แถบสถานะบนจอเล็ก เดิม pt-16 pb-6 กินพื้นที่กล้องเกินครึ่ง
+                    ข้อความและ aria-live เหมือนเดิมทุกประการ */}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 pt-8 pb-3 md:pt-16 md:pb-6 text-center">
                   <p className="text-white font-medium animate-pulse" aria-live="polite">
                     {stageMessages[stage]}
                   </p>
                 </div>
               </>
             ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-8 text-center">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 md:gap-6 md:px-8 text-center">
                 <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center">
                   <IconCamera size={36} className="text-blush" />
                 </div>
@@ -303,20 +311,25 @@ export default function AnalyzePage() {
         </div>
 
         {/* Right: Tips + CTA */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-blush/40 border border-clay/25 rounded-2xl p-6">
+        <div className="lg:col-span-2 space-y-4 md:space-y-6">
+          <div className="bg-blush/40 border border-clay/25 rounded-2xl p-4 md:p-6">
             <h2 className="text-lg font-semibold text-gray-900">Before you scan</h2>
             <p className="mt-1 text-sm text-gray-500">
               Follow these for the most reliable result
             </p>
 
-            <ul className="mt-6 space-y-4">
+            {/* 320–374px หนึ่งคอลัมน์ เพราะสองคอลัมน์เหลือที่ข้อความ ~90px ซึ่งบีบเกินไป
+                375px ขึ้นไปเป็น 2×2 · ตั้งแต่ md กลับเป็นคอลัมน์เดียว gap 16px
+                เท่ากับ space-y-4 เดิมทุกประการ */}
+            <ul className="mt-4 grid grid-cols-1 min-[375px]:grid-cols-2 gap-3 md:mt-6 md:grid-cols-1 md:gap-4">
               {tips.map((tip) => (
-                <li key={tip.text} className="flex items-center gap-4">
-                  <div className="w-11 h-11 bg-blush rounded-xl flex items-center justify-center shrink-0">
+                <li key={tip.text} className="flex items-center gap-2 md:gap-4">
+                  <div className="w-9 h-9 md:w-11 md:h-11 bg-blush rounded-xl flex items-center justify-center shrink-0">
                     <tip.icon size={22} stroke={1.8} className="text-mocha" />
                   </div>
-                  <span className="text-gray-800">{tip.text}</span>
+                  <span className="min-w-0 text-sm md:text-base text-gray-800">
+                    {tip.text}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -331,7 +344,7 @@ export default function AnalyzePage() {
             <button
               type="button"
               onClick={cancelAnalysis}
-              className="block w-fit min-w-44 text-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
+              className="block w-full md:w-fit md:min-w-44 text-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
             >
               Cancel
             </button>
@@ -339,7 +352,7 @@ export default function AnalyzePage() {
             <button
               type="button"
               onClick={startAnalysis}
-              className="block w-fit min-w-44 text-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
+              className="block w-full md:w-fit md:min-w-44 text-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
             >
               Start analysis
             </button>
