@@ -335,9 +335,12 @@ export default function AnalyzePage() {
             </ul>
           </div>
 
-          <p className="flex items-center gap-2 text-sm text-gray-500">
-            <IconLock size={16} />
-            No sign-up · no images or data stored
+          {/* backend บันทึก usage stat (อารมณ์ + เวลา) จึงไม่อ้างว่า "no data stored"
+              อ้างเฉพาะเรื่องเฟรมภาพซึ่งตรวจแล้วว่าไม่ถูกเก็บ
+              ที่ 320px ข้อความยังตัดเป็นสองบรรทัดได้ ไอคอนจึงชิดบนและไม่หด */}
+          <p className="flex items-start gap-2 text-sm text-gray-500">
+            <IconLock size={16} className="mt-0.5 shrink-0" />
+            <span>No sign-up · captured frames are not stored</span>
           </p>
 
           {busy ? (

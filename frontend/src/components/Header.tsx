@@ -106,6 +106,22 @@ export default function Header() {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [menuOpen]);
 
+  // ล้างค่าที่ค้างเมื่อผู้ใช้ย้อน/ไปข้างหน้าด้วย history ของเบราว์เซอร์
+  //
+  // ถ้าเปิดเมนูที่ "/" แล้วออกจากหน้า openPathname ยังเป็น "/" อยู่ (menuOpen เป็น false
+  // เพราะ pathname ไม่ตรง) พอกด Back กลับมา "/" ค่าจะตรงกันอีกครั้งและเมนูเด้งเปิดเอง
+  // จึงต้องฟัง popstate ตราบใดที่ยังมีค่าค้าง — ผูกกับ openPathname ไม่ใช่ menuOpen
+  // เพราะตอนอยู่หน้าอื่น menuOpen เป็น false แล้วแต่ค่าค้างยังอยู่
+  // setOpenPathname เรียกจาก event handler ไม่ใช่ตัว effect และเป็นฟังก์ชันคงที่ จึงไม่มี stale closure
+  useEffect(() => {
+    if (openPathname === null) return;
+
+    const onPopState = () => setOpenPathname(null);
+
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [openPathname]);
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-snow/90 backdrop-blur border-b border-clay/25">
