@@ -42,7 +42,9 @@ const BACK_HREF = '/';
 
 function Logo({ className }: { className: string }) {
   return (
-    <Link href="/" className={`${className} items-center gap-2 shrink-0`}>
+    // min-h-11 ขยายพื้นที่กดของโลโก้ให้ถึง 44px (เดิม 36px) โดยไม่เปลี่ยนหน้าตา
+    // เพราะแถว header สูง 64px และจัดกึ่งกลางแนวตั้งอยู่แล้ว
+    <Link href="/" className={`${className} min-h-11 items-center gap-2 shrink-0`}>
       <div className="w-9 h-9 bg-clay rounded-full flex items-center justify-center shrink-0">
         <IconMoodSmileFilled size={20} className="text-white" />
       </div>
