@@ -12,7 +12,7 @@ import {
   IconRuler2,
   IconLock,
 } from '@tabler/icons-react';
-import { analyzeEmotion, toErrorReason } from '@/lib/api';
+import { ApiError, analyzeEmotion, toErrorReason } from '@/lib/api';
 import { RESULT_STORAGE_KEY } from '@/lib/session';
 
 type Stage = 'idle' | 'requesting' | 'detecting' | 'analyzing';
@@ -230,7 +230,13 @@ export default function AnalyzePage() {
       } catch (error) {
         // ผู้ใช้กดยกเลิกเอง ไม่ใช่ข้อผิดพลาด
         if (cancelled || controller.signal.aborted) return;
-        console.error('[analyze] วิเคราะห์อารมณ์ไม่สำเร็จ', error);
+        // ApiError คือ error ที่คาดไว้และ api.ts จำแนก reason ให้แล้ว (backend ตอบ success:false
+        // เช่น NO_FACE_DETECTED, timeout, network) — หน้า error screen แจ้งผู้ใช้ครบแล้ว
+        // จึงไม่ log ระดับ error เพราะ Next dev overlay จะดัก console.error แล้วเปิดกล่องแดง
+        // ราวกับเป็น crash ส่วน error ชนิดอื่นคือบั๊กจริง ยังคง console.error ไว้ให้ตรวจสอบ
+        if (!(error instanceof ApiError)) {
+          console.error('[analyze] วิเคราะห์อารมณ์ไม่สำเร็จ', error);
+        }
         goToError(toErrorReason(error));
       }
     };
