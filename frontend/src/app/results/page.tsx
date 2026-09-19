@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   IconMoodSmile,
@@ -15,7 +14,6 @@ import {
   IconChevronDown,
   IconDice5,
   IconRefresh,
-  IconArrowLeft,
 } from '@tabler/icons-react';
 import { EMOTION_IDS, type Category, type EmotionId } from '@/types';
 import { EMOTION_META } from '@/lib/emotions';
@@ -86,20 +84,12 @@ export default function ResultsPage() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
-      {/* ต่ำกว่า md ปุ่มย้อนกลับอยู่บน toolbar ของ Header แล้ว จึงซ่อนลิงก์นี้กันซ้ำ
-          ปลายทางยังเป็น "/" เหมือนเดิม ไม่ได้เปลี่ยน navigation */}
-      <Link
-        href="/"
-        className="hidden md:inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
-      >
-        <IconArrowLeft size={18} />
-        Back to home
-      </Link>
-
+      {/* ทางกลับหน้าแรกมีที่เดียว: มือถือใช้ toolbar ใน Header, desktop ใช้ navigation ใน Header
+          จึงไม่มีลิงก์ Back to home ใน content — action เดียวใน content คือ Analyze again */}
       <h1 className="sr-only">Expression result and recommended items</h1>
 
       {/* Emotion result card */}
-      <div className="mt-0 md:mt-6 bg-snow border border-clay/25 rounded-2xl p-6 md:p-8">
+      <div className="bg-snow border border-clay/25 rounded-2xl p-6 md:p-8">
         {/* ต่ำกว่า sm เรียงสองแถว เพราะที่ 320px แถวเดียวต้องใช้ ~302px แต่มีพื้นที่จริง 240px
             ตั้งแต่ sm (640px) ขึ้นไปพื้นที่ในการ์ดมี 544px แถวเดียวจึงพอสบายทุกอารมณ์ */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -262,9 +252,7 @@ function ResultsSkeleton() {
           ปุ่มหมวด grid 2×2 จนถึง md, การ์ดเมนู 1 คอลัมน์รูปซ้าย → 2 คอลัมน์รูปบนที่ sm)
           เพื่อให้ตอนสลับมาเป็นเนื้อหาจริงแล้วตำแหน่งไม่ขยับ */}
       <div aria-hidden="true" className="animate-pulse">
-        <div className="hidden md:block h-5 w-28 bg-blush rounded-full" />
-
-        <div className="mt-0 md:mt-6 bg-snow border border-clay/25 rounded-2xl p-6 md:p-8">
+        <div className="bg-snow border border-clay/25 rounded-2xl p-6 md:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-blush shrink-0" />

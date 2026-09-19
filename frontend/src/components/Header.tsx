@@ -20,23 +20,23 @@ const navItems = [
 const MOBILE_NAV_ID = 'mobile-nav';
 
 /**
- * ชื่อหน้าที่แสดงบน toolbar ของมือถือ (ต่ำกว่า md)
+ * ชื่อหน้าที่แสดงบน toolbar ของมือถือ (ต่ำกว่า sm)
  *
  * ตาราง route → ชื่อ ไม่ใช่การเพิ่มหรือเปลี่ยน routing แค่ตั้งชื่อให้ route ที่มีอยู่แล้ว
- * /error-screen ใช้ชื่อ "Analyze" เพราะผู้ใช้มาถึงหน้านี้จากขั้นตอนวิเคราะห์เสมอ
  * path ที่ไม่อยู่ในตารางแปลว่าไม่ใช่ route จริง จึงเป็นหน้า 404
  */
 const MOBILE_PAGE_TITLES: Record<string, string> = {
   '/analyze': 'Analyze',
   '/results': 'Results',
-  '/error-screen': 'Analyze',
+  '/error-screen': 'Error',
 };
 
 const NOT_FOUND_TITLE = 'Page not found';
 
 /**
- * ปลายทางของปุ่มย้อนกลับ ตรงกับลิงก์ "Back to home" ที่ทุกหน้ามีอยู่เดิม
- * ไม่ใช้ router.back() เพราะ history อาจพาผู้ใช้ออกนอกระบบหรือย้อนไปหน้าที่ไม่คาดคิด
+ * ปลายทางของปุ่มย้อนกลับบน toolbar มือถือ — เป็นทางกลับหน้าแรกทางเดียวของหน้าเหล่านั้นบนมือถือ
+ * ใช้ <Link href="/"> เสมอ ไม่ใช้ router.back() เพราะ deep link/refresh จะไม่มี history ให้ย้อน
+ * และ history อาจพาผู้ใช้ออกนอกระบบหรือย้อนไปหน้าที่ไม่คาดคิด
  */
 const BACK_HREF = '/';
 
@@ -46,7 +46,7 @@ function Logo({ className }: { className: string }) {
     // เพราะแถว header สูง 64px และจัดกึ่งกลางแนวตั้งอยู่แล้ว
     <Link href="/" className={`${className} min-h-11 items-center gap-2 shrink-0`}>
       <div className="w-9 h-9 bg-clay rounded-full flex items-center justify-center shrink-0">
-        <IconMoodSmileFilled size={20} className="text-white" />
+        <IconMoodSmileFilled size={20} className="text-white" aria-hidden="true" />
       </div>
       <span className="text-xl font-bold text-gray-900">FaceFood</span>
     </Link>
@@ -126,31 +126,36 @@ export default function Header() {
     <>
       <header className="sticky top-0 z-50 bg-snow/90 backdrop-blur border-b border-clay/25">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center gap-2 h-16">
+          {/* breakpoint ของทั้ง header คือ sm (640px): ต่ำกว่านั้นเป็นมือถือ ตั้งแต่ sm เป็น desktop/tablet
+              แถว toolbar ของหน้าอื่นบนมือถือสูง 56px ส่วนหน้าแรกและ desktop คง 64px เดิม
+              (overlay ของเมนูยึด top-16 ซึ่งมีเฉพาะหน้าแรก จึงไม่ต้องแก้) */}
+          <div
+            className={`flex justify-between items-center gap-2 ${mobileTitle ? 'h-14 sm:h-16' : 'h-16'}`}
+          >
             {/* ฝั่งซ้าย: หน้าแรกเป็นโลโก้เสมอ ส่วนหน้าอื่นบนมือถือเป็น toolbar ย้อนกลับ + ชื่อหน้า
-                ตั้งแต่ md ขึ้นไปกลับไปเป็นโลโก้เดิมทุกหน้า มีชิ้นเดียวที่มองเห็นได้เสมอ */}
+                ตั้งแต่ sm ขึ้นไปกลับไปเป็นโลโก้เดิมทุกหน้า มีชิ้นเดียวที่มองเห็นได้เสมอ */}
             {mobileTitle ? (
               <>
-                <div className="flex items-center gap-1 min-w-0 md:hidden">
+                <div className="flex items-center gap-3 min-w-0 sm:hidden">
                   <Link
                     href={BACK_HREF}
                     aria-label="Back to home"
-                    className="-ml-2 w-11 h-11 flex items-center justify-center rounded-full text-gray-700 hover:bg-blush/60 active:bg-blush transition-colors shrink-0"
+                    className="w-11 h-11 flex items-center justify-center rounded-xl border border-clay/50 text-gray-700 hover:bg-blush/60 active:bg-blush transition-colors shrink-0"
                   >
-                    <IconChevronLeft size={22} />
+                    <IconChevronLeft size={20} stroke={2} aria-hidden="true" />
                   </Link>
-                  <span className="text-lg font-bold text-gray-900 truncate">
+                  <span className="text-[17px] font-semibold text-gray-900 truncate">
                     {mobileTitle}
                   </span>
                 </div>
-                <Logo className="hidden md:flex" />
+                <Logo className="hidden sm:flex" />
               </>
             ) : (
               <Logo className="flex" />
             )}
 
-            {/* ฝั่งขวา: ตั้งแต่ md ขึ้นไปคือ navigation + CTA เดิมทั้งชุด
-                ต่ำกว่า md เหลือเฉพาะปุ่ม hamburger และเฉพาะหน้าแรกเท่านั้น */}
+            {/* ฝั่งขวา: ตั้งแต่ sm ขึ้นไปคือ navigation เดิม + CTA เฉพาะหน้าแรก
+                ต่ำกว่า sm เหลือเฉพาะปุ่ม hamburger และเฉพาะหน้าแรกเท่านั้น */}
             <nav aria-label="Main" className="flex items-center gap-2 md:gap-3">
               {navItems.map((item) => {
                 const isActive = pathname === '/' && activeSection === item.section;
@@ -159,7 +164,7 @@ export default function Header() {
                     key={item.section}
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`hidden md:block text-sm font-medium px-5 py-2 rounded-full border transition-colors ${
+                    className={`hidden sm:block text-sm font-medium px-5 py-2 rounded-full border transition-colors ${
                       isActive
                         ? 'bg-blush border-clay text-rosewood'
                         : 'bg-transparent border-clay/40 text-gray-700 hover:bg-blush/50 active:bg-blush'
@@ -169,12 +174,16 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <Link
-                href="/analyze"
-                className="hidden md:block bg-clay text-mocha text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-clay-dark transition-colors md:ml-3"
-              >
-                Start analysis
-              </Link>
+              {/* CTA แสดงเฉพาะหน้าแรก: /analyze คือปลายทางเดียวกับปุ่ม ส่วน /results มี Analyze again
+                  และ /error-screen มี Try again เป็น action ของ flow อยู่แล้ว */}
+              {isHome && (
+                <Link
+                  href="/analyze"
+                  className="hidden sm:block bg-clay text-mocha text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-clay-dark transition-colors sm:ml-3"
+                >
+                  Start analysis
+                </Link>
+              )}
 
               {isHome && (
                 <button
@@ -184,9 +193,13 @@ export default function Header() {
                   aria-expanded={menuOpen}
                   aria-controls={MOBILE_NAV_ID}
                   aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                  className="md:hidden -mr-2 w-11 h-11 flex items-center justify-center rounded-full text-gray-700 hover:bg-blush/60 active:bg-blush transition-colors"
+                  className="sm:hidden -mr-2 w-11 h-11 flex items-center justify-center rounded-full text-gray-700 hover:bg-blush/60 active:bg-blush transition-colors"
                 >
-                  {menuOpen ? <IconX size={22} /> : <IconMenu2 size={22} />}
+                  {menuOpen ? (
+                    <IconX size={22} aria-hidden="true" />
+                  ) : (
+                    <IconMenu2 size={22} aria-hidden="true" />
+                  )}
                 </button>
               )}
             </nav>
@@ -200,7 +213,7 @@ export default function Header() {
           <nav
             id={MOBILE_NAV_ID}
             aria-label="Mobile"
-            className="md:hidden absolute inset-x-0 top-full bg-snow border-b border-clay/25 shadow-md"
+            className="sm:hidden absolute inset-x-0 top-full bg-snow border-b border-clay/25 shadow-md"
           >
             <ul className="max-w-7xl mx-auto px-4 py-2">
               {navItems.map((item) => {
@@ -239,7 +252,7 @@ export default function Header() {
         <div
           aria-hidden="true"
           onClick={closeMenu}
-          className="md:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-mocha/40"
+          className="sm:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-mocha/40"
         />
       )}
     </>

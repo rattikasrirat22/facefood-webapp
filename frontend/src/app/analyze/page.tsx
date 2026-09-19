@@ -1,10 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  IconArrowLeft,
   IconCamera,
   IconUser,
   IconFaceId,
@@ -257,19 +255,13 @@ export default function AnalyzePage() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
-      {/* ต่ำกว่า md ปุ่มย้อนกลับอยู่บน toolbar ของ Header แล้ว จึงซ่อนลิงก์นี้กันซ้ำ
-          ปลายทางยังเป็น "/" เหมือนเดิม ไม่ได้เปลี่ยน navigation */}
-      <Link
-        href="/"
-        className="hidden md:inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
-      >
-        <IconArrowLeft size={18} />
-        Back to home
-      </Link>
-
+      {/* ทางกลับหน้าแรกมีที่เดียว: มือถือใช้ toolbar ใน Header, desktop ใช้ navigation ใน Header
+          จึงไม่มีลิงก์ Back to home ใน content อีก */}
       <h1 className="sr-only">Facial expression analysis</h1>
 
-      <div className="mt-0 md:mt-6 grid grid-cols-1 lg:grid-cols-5 gap-5 md:gap-8 items-center">
+      {/* ตำแหน่งกล้องและกล่อง tips ตรึงไว้เหมือนเดิมด้วย col-start/row-start ทั้งสองชิ้น
+          ปุ่ม Cancel (มีเฉพาะตอนกำลังวิเคราะห์) จึงแทรกเข้ามาได้โดยไม่ดันอะไรเลื่อน */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 md:gap-8 items-center">
         {/* Left: Camera panel */}
         <div className="lg:col-span-3">
           {/* ต่ำกว่า md ใช้สัดส่วนแนวตั้ง 3/4 ให้เข้ากับใบหน้าและถือมือถือแนวตั้ง
@@ -316,8 +308,8 @@ export default function AnalyzePage() {
           </div>
         </div>
 
-        {/* Right: Tips + CTA */}
-        <div className="lg:col-span-2 space-y-4 md:space-y-6">
+        {/* Right: Tips + CTA (ปุ่ม Start analysis อยู่ท้ายกล่องนี้ ตำแหน่งเดิมทุกประการ) */}
+        <div className="lg:col-span-2 lg:col-start-4 lg:row-start-1 space-y-4 md:space-y-6">
           <div className="bg-blush/40 border border-clay/25 rounded-2xl p-4 md:p-6">
             <h2 className="text-lg font-semibold text-gray-900">Before you scan</h2>
             <p className="mt-1 text-sm text-gray-500">
@@ -349,15 +341,9 @@ export default function AnalyzePage() {
             <span>No sign-up · captured frames are not stored</span>
           </p>
 
-          {busy ? (
-            <button
-              type="button"
-              onClick={cancelAnalysis}
-              className="block w-full md:w-fit md:min-w-44 text-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
-            >
-              Cancel
-            </button>
-          ) : (
+          {/* สถานะ idle: ปุ่มเริ่มวิเคราะห์อยู่ตำแหน่งและสไตล์เดิมทุกประการ
+              (ตอนกำลังวิเคราะห์ ปุ่มนี้หายไปและมี Cancel อยู่ใต้กล้องแทน — มีปุ่มเดียวเสมอ) */}
+          {!busy && (
             <button
               type="button"
               onClick={startAnalysis}
@@ -367,6 +353,22 @@ export default function AnalyzePage() {
             </button>
           )}
         </div>
+
+        {/* Cancel — ใช้ handler เดิม (cancelAnalysis) ไม่ใช่ปุ่มใหม่ซ้อนของเดิม
+            มือถือ: order-last ทำให้อยู่ท้าย content ตามลำดับที่มองเห็น สูง 48px เต็มความกว้าง มีกรอบ
+            ตั้งแต่ sm: อยู่ใต้กล้อง เป็น text button ไม่มีกรอบ พื้นที่กด 44px
+            ช่วง sm–md กล้องถูกจัดกึ่งกลาง (max-w-md mx-auto) จึงจัดปุ่มกึ่งกลางตาม ตั้งแต่ md ชิดซ้ายใต้กล้อง */}
+        {busy && (
+          <div className="order-last sm:order-none lg:col-span-3 lg:col-start-1 lg:row-start-2 sm:flex sm:justify-center md:block">
+            <button
+              type="button"
+              onClick={cancelAnalysis}
+              className="flex w-full h-12 items-center justify-center border border-clay/55 text-gray-800 text-base font-medium px-8 rounded-full hover:bg-blush/50 transition-colors sm:w-fit sm:h-auto sm:min-h-11 sm:border-0 sm:px-2 sm:hover:bg-transparent sm:hover:text-rosewood"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
