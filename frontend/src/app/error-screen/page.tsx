@@ -23,95 +23,101 @@ type ErrorInfo = {
   tips: string[];
 };
 
+// key ของแต่ละรายการคือค่าที่ส่งมาทาง /error-screen?reason=<key> และแม็ปมาจาก
+// ERROR_CODE_TO_REASON ใน src/lib/api.ts — เปลี่ยนได้เฉพาะ title/description/tips
 const errors: Record<string, ErrorInfo> = {
   'camera-denied': {
     icon: IconCameraOff,
-    title: 'ไม่สามารถเข้าถึงกล้องได้',
-    description: 'คุณยังไม่ได้อนุญาตให้เว็บไซต์ใช้กล้อง จึงไม่สามารถเริ่มวิเคราะห์อารมณ์ได้',
+    title: 'Camera access blocked',
+    description:
+      'This site has not been allowed to use your camera, so the analysis cannot start.',
     tips: [
-      'กดไอคอนรูปกุญแจหรือกล้องตรงแถบที่อยู่ของเบราว์เซอร์ แล้วเปลี่ยนสิทธิ์กล้องเป็น "อนุญาต"',
-      'บนมือถือ ไปที่ ตั้งค่า → แอปเบราว์เซอร์ → สิทธิ์ → เปิดสิทธิ์กล้อง',
-      'รีเฟรชหน้าเว็บ แล้วกดเริ่มวิเคราะห์ใหม่อีกครั้ง',
+      'Select the lock or camera icon in the browser address bar, then set the camera permission to "Allow".',
+      'On mobile, go to Settings → your browser app → Permissions → enable Camera.',
+      'Refresh the page, then start the analysis again.',
     ],
   },
   'no-camera': {
     icon: IconCameraQuestion,
-    title: 'ไม่พบกล้องในอุปกรณ์',
-    description: 'ระบบหากล้องในเครื่องของคุณไม่เจอ หรือกล้องกำลังถูกใช้งานโดยโปรแกรมอื่น',
+    title: 'No camera found',
+    description:
+      'We could not find a camera on your device, or another app is currently using it.',
     tips: [
-      'ตรวจสอบว่ากล้องเชื่อมต่ออยู่ และไม่ได้ถูกปิดด้วยสวิตช์/ฝาปิดกล้อง',
-      'ปิดโปรแกรมอื่นที่อาจกำลังใช้กล้องอยู่ เช่น Zoom หรือ Teams',
-      'ลองใช้อุปกรณ์อื่นที่มีกล้อง เช่น โทรศัพท์มือถือ',
+      'Check that the camera is connected and not switched off or covered.',
+      'Close other apps that may be using the camera, such as Zoom or Teams.',
+      'Try a device that has a camera, such as your phone.',
     ],
   },
   'multiple-faces': {
     icon: IconUsers,
-    title: 'ตรวจพบหลายใบหน้า',
-    description: 'ระบบวิเคราะห์อารมณ์ได้ครั้งละ 1 คนเท่านั้น',
+    title: 'Multiple faces detected',
+    description: 'The analysis works with one person at a time.',
     tips: [
-      'ให้อยู่ในกรอบกล้องเพียงคนเดียวขณะสแกน',
-      'ตรวจสอบว่าฉากหลังไม่มีรูปภาพหรือโปสเตอร์ที่มีใบหน้าคน',
-      'เมื่อพร้อมแล้ว กดลองอีกครั้ง',
+      'Make sure only one person is in the frame while scanning.',
+      'Check that no photos or posters showing faces are visible behind you.',
+      'When you are ready, try again.',
     ],
   },
   'no-face': {
     icon: IconFaceIdError,
-    title: 'ไม่พบใบหน้า',
-    description: 'ระบบมองไม่เห็นใบหน้าของคุณในกล้อง จึงไม่สามารถวิเคราะห์อารมณ์ได้',
+    title: 'No face detected',
+    description:
+      'We could not see your face in the camera, so the analysis cannot run.',
     tips: [
-      'หันหน้าตรงเข้ากล้อง และวางใบหน้าให้อยู่กลางกรอบ',
-      'เอาสิ่งที่บังใบหน้าออก เช่น หน้ากาก แว่นกันแดด หรือผมที่ปิดหน้า',
-      'ขยับเข้าใกล้กล้องขึ้นอีกเล็กน้อย แล้วลองใหม่',
+      'Face the camera directly and center your face in the frame.',
+      'Remove anything covering your face, such as a mask, sunglasses, or hair.',
+      'Move a little closer to the camera, then try again.',
     ],
   },
   'low-light': {
     icon: IconBulbOff,
-    title: 'แสงสว่างไม่เพียงพอ',
-    description: 'ภาพจากกล้องมืดเกินไป ทำให้ระบบมองเห็นใบหน้าไม่ชัดเจน',
+    title: 'Not enough light',
+    description: 'The camera image is too dark to see your face clearly.',
     tips: [
-      'ย้ายไปในที่ที่มีแสงสว่างมากขึ้น หรือเปิดไฟเพิ่ม',
-      'หันหน้าเข้าหาแหล่งแสง อย่านั่งย้อนแสงหรือมีหน้าต่างสว่างอยู่ด้านหลัง',
-      'หลีกเลี่ยงแสงจ้าที่ส่องเข้ากล้องโดยตรง',
+      'Move somewhere brighter, or turn on more lights.',
+      'Face the light source, and avoid sitting with a bright window behind you.',
+      'Avoid shining a strong light directly into the camera.',
     ],
   },
   distance: {
     icon: IconRulerMeasure,
-    title: 'ระยะห่างจากกล้องไม่เหมาะสม',
-    description: 'ใบหน้าของคุณอยู่ใกล้หรือไกลจากกล้องเกินไป',
+    title: 'Camera distance is off',
+    description: 'Your face is either too close to the camera or too far away.',
     tips: [
-      'อยู่ห่างจากกล้องประมาณ 0.5–1.5 เมตร',
-      'ปรับตำแหน่งให้ใบหน้าอยู่ในกรอบพอดี ไม่ใหญ่หรือเล็กจนเกินไป',
-      'จัดกล้องให้อยู่ระดับสายตา แล้วลองใหม่อีกครั้ง',
+      'Stay about 0.5–1.5 metres from the camera.',
+      'Adjust until your face fits the frame, neither too large nor too small.',
+      'Position the camera at eye level, then try again.',
     ],
   },
   network: {
     icon: IconPlugConnectedX,
-    title: 'เชื่อมต่อระบบวิเคราะห์ไม่ได้',
-    description: 'ไม่สามารถติดต่อกับเซิร์ฟเวอร์ที่ใช้วิเคราะห์อารมณ์ได้ในขณะนี้',
+    title: 'Cannot reach the analysis service',
+    description:
+      'We could not connect to the server that runs the analysis right now.',
     tips: [
-      'ตรวจสอบว่าอุปกรณ์ของคุณเชื่อมต่ออินเทอร์เน็ตอยู่',
-      'รอสักครู่แล้วกดลองอีกครั้ง ระบบอาจกำลังปิดปรับปรุง',
-      'ถ้ายังไม่หาย ลองเปลี่ยนเครือข่าย เช่น สลับระหว่าง Wi-Fi กับเน็ตมือถือ',
+      'Check that your device is connected to the internet.',
+      'Wait a moment and try again, as the service may be under maintenance.',
+      'If the problem continues, switch networks, for example between Wi-Fi and mobile data.',
     ],
   },
   timeout: {
     icon: IconClockExclamation,
-    title: 'ใช้เวลาวิเคราะห์นานเกินไป',
-    description: 'ระบบใช้เวลาประมวลผลนานกว่าปกติ จึงหยุดรอไว้ก่อน',
+    title: 'Analysis took too long',
+    description: 'The server took longer than expected, so we stopped waiting.',
     tips: [
-      'กดลองอีกครั้ง ส่วนใหญ่ครั้งถัดไปจะเร็วขึ้น',
-      'ตรวจสอบว่าสัญญาณอินเทอร์เน็ตของคุณเสถียร',
-      'ถ้าเกิดซ้ำหลายครั้ง แจ้งผู้ดูแลระบบเพื่อตรวจสอบเซิร์ฟเวอร์',
+      'Try again, as the next attempt is usually faster.',
+      'Check that your internet connection is stable.',
+      'If it keeps happening, let the site administrator know so they can check the server.',
     ],
   },
   unknown: {
     icon: IconAlertTriangle,
-    title: 'เกิดข้อผิดพลาด',
-    description: 'มีบางอย่างผิดพลาดระหว่างการวิเคราะห์อารมณ์',
+    title: 'Something went wrong',
+    description: 'An error occurred during the analysis.',
     tips: [
-      'กดลองอีกครั้งเพื่อเริ่มวิเคราะห์ใหม่',
-      'รีเฟรชหน้าเว็บ หรือปิดแล้วเปิดเบราว์เซอร์ใหม่',
-      'ถ้ายังไม่หาย ลองเปลี่ยนเบราว์เซอร์ เช่น Chrome หรือ Edge',
+      'Try again to restart the analysis.',
+      'Refresh the page, or close and reopen your browser.',
+      'If the problem continues, try another browser such as Chrome or Edge.',
     ],
   },
 };
@@ -122,11 +128,12 @@ function ErrorContent() {
   const info = errors[reason] ?? errors.unknown;
   const Icon = info.icon;
 
+  // มือถือ (<sm) เว้นขอบล่างอย่างน้อย 34px และเผื่อ safe area ของเครื่องที่มี home indicator
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      <div className="max-w-xl mx-auto bg-snow border border-clay/25 rounded-2xl p-8 md:p-10">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-[max(34px,env(safe-area-inset-bottom))] sm:py-8 md:py-16">
+      <div className="max-w-xl mx-auto bg-snow border border-clay/25 rounded-2xl p-5 sm:p-8 md:p-10">
         <div className="flex flex-col items-center text-center">
-          <div className="w-20 h-20 bg-blush rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blush rounded-full flex items-center justify-center shrink-0">
             <Icon size={40} stroke={1.6} className="text-rosewood" />
           </div>
           <h1 className="mt-6 text-2xl md:text-3xl font-bold text-gray-900">
@@ -135,8 +142,8 @@ function ErrorContent() {
           <p className="mt-3 text-gray-600 leading-relaxed">{info.description}</p>
         </div>
 
-        <div className="mt-8 bg-blush/40 rounded-xl p-6">
-          <h2 className="font-semibold text-gray-900">วิธีแก้ไข</h2>
+        <div className="mt-6 md:mt-8 bg-blush/40 rounded-xl p-4 sm:p-6">
+          <h2 className="font-semibold text-gray-900">How to fix this</h2>
           <ul className="mt-4 space-y-3">
             {info.tips.map((tip) => (
               <li key={tip} className="flex items-start gap-3 text-gray-700">
@@ -151,18 +158,21 @@ function ErrorContent() {
           </ul>
         </div>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        {/* Recovery actions: ตั้งแต่ sm เป็นปุ่มคู่แถวเดียว (Back to home เป็น secondary ใน error card
+            อนุญาตให้มีได้เพราะเป็น recovery action) ส่วนมือถือเหลือ Try again ปุ่มเดียวเต็มความกว้าง
+            สูง 52px — ทางกลับหน้าแรกบนมือถือคือปุ่ม chevron บน toolbar ของ Header */}
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
           <Link
             href="/"
-            className="inline-flex items-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
+            className="hidden sm:inline-flex sm:w-auto items-center justify-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
           >
-            กลับหน้าแรก
+            Back to home
           </Link>
           <Link
             href="/analyze"
-            className="inline-flex items-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
+            className="inline-flex w-full min-h-13 sm:w-auto sm:min-h-0 items-center justify-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
           >
-            ลองอีกครั้ง
+            Try again
           </Link>
         </div>
       </div>

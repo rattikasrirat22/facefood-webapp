@@ -1,10 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  IconArrowLeft,
   IconCamera,
   IconUser,
   IconFaceId,
@@ -12,23 +10,23 @@ import {
   IconRuler2,
   IconLock,
 } from '@tabler/icons-react';
-import { analyzeEmotion, toErrorReason } from '@/lib/api';
+import { ApiError, analyzeEmotion, toErrorReason } from '@/lib/api';
 import { RESULT_STORAGE_KEY } from '@/lib/session';
 
 type Stage = 'idle' | 'requesting' | 'detecting' | 'analyzing';
 
 const tips = [
-  { icon: IconUser, text: 'สแกนได้ครั้งละ 1 คน' },
-  { icon: IconFaceId, text: 'วางใบหน้าให้อยู่ในกรอบ' },
-  { icon: IconBulb, text: 'อยู่ในที่ที่มีแสงเพียงพอ' },
-  { icon: IconRuler2, text: 'ห่างจากกล้อง 0.5–1.5 ม.' },
+  { icon: IconUser, text: 'One person per scan' },
+  { icon: IconFaceId, text: 'Keep your face inside the frame' },
+  { icon: IconBulb, text: 'Find a well-lit spot' },
+  { icon: IconRuler2, text: 'Stay 0.5–1.5 m from the camera' },
 ];
 
 const stageMessages: Record<Stage, string> = {
   idle: '',
-  requesting: 'กำลังขอสิทธิ์เข้าถึงกล้อง...',
-  detecting: 'กำลังตรวจจับใบหน้า...',
-  analyzing: 'กำลังวิเคราะห์อารมณ์... (ครั้งแรกอาจใช้เวลานานกว่าปกติ)',
+  requesting: 'Requesting camera access...',
+  detecting: 'Detecting your face...',
+  analyzing: 'Analyzing your expression... (the first run may take longer)',
 };
 
 type FaceDetectorLike = new () => {
@@ -230,7 +228,13 @@ export default function AnalyzePage() {
       } catch (error) {
         // ผู้ใช้กดยกเลิกเอง ไม่ใช่ข้อผิดพลาด
         if (cancelled || controller.signal.aborted) return;
-        console.error('[analyze] วิเคราะห์อารมณ์ไม่สำเร็จ', error);
+        // ApiError คือ error ที่คาดไว้และ api.ts จำแนก reason ให้แล้ว (backend ตอบ success:false
+        // เช่น NO_FACE_DETECTED, timeout, network) — หน้า error screen แจ้งผู้ใช้ครบแล้ว
+        // จึงไม่ log ระดับ error เพราะ Next dev overlay จะดัก console.error แล้วเปิดกล่องแดง
+        // ราวกับเป็น crash ส่วน error ชนิดอื่นคือบั๊กจริง ยังคง console.error ไว้ให้ตรวจสอบ
+        if (!(error instanceof ApiError)) {
+          console.error('[analyze] วิเคราะห์อารมณ์ไม่สำเร็จ', error);
+        }
         goToError(toErrorReason(error));
       }
     };
@@ -250,21 +254,21 @@ export default function AnalyzePage() {
   const busy = stage !== 'idle';
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-rosewood transition-colors"
-      >
-        <IconArrowLeft size={18} />
-        กลับหน้าแรก
-      </Link>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+      {/* ทางกลับหน้าแรกมีที่เดียว: มือถือใช้ toolbar ใน Header, desktop ใช้ navigation ใน Header
+          จึงไม่มีลิงก์ Back to home ใน content อีก */}
+      <h1 className="sr-only">Facial expression analysis</h1>
 
-      <h1 className="sr-only">วิเคราะห์อารมณ์จากใบหน้า</h1>
-
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+      {/* ตำแหน่งกล้องและกล่อง tips ตรึงไว้เหมือนเดิมด้วย col-start/row-start ทั้งสองชิ้น
+          ปุ่ม Cancel (มีเฉพาะตอนกำลังวิเคราะห์) จึงแทรกเข้ามาได้โดยไม่ดันอะไรเลื่อน */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 md:gap-8 items-center">
         {/* Left: Camera panel */}
         <div className="lg:col-span-3">
-          <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-[#3F3128]">
+          {/* ต่ำกว่า md ใช้สัดส่วนแนวตั้ง 3/4 ให้เข้ากับใบหน้าและถือมือถือแนวตั้ง
+              จำกัดความกว้างไว้เพื่อไม่ให้กรอบสูงจนเกินจอในช่วง 430–767px
+              (เป็นการจำกัดความกว้าง ความสูงยังคำนวณจากสัดส่วน ไม่ได้ fix ความสูง)
+              ตั้งแต่ md ขึ้นไปกลับเป็น 4/3 เต็มความกว้างแบบเดิมทุกประการ */}
+          <div className="relative w-full max-w-sm sm:max-w-md md:max-w-none mx-auto md:mx-0 aspect-[3/4] md:aspect-[4/3] rounded-3xl overflow-hidden bg-[#3F3128]">
             {cameraOn ? (
               <>
                 <video
@@ -272,17 +276,19 @@ export default function AnalyzePage() {
                   autoPlay
                   playsInline
                   muted
-                  aria-label="ภาพสดจากกล้องหน้า"
+                  aria-label="Live preview from the front camera"
                   className="absolute inset-0 w-full h-full object-cover -scale-x-100"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent pt-16 pb-6 text-center">
+                {/* ลด padding แถบสถานะบนจอเล็ก เดิม pt-16 pb-6 กินพื้นที่กล้องเกินครึ่ง
+                    ข้อความและ aria-live เหมือนเดิมทุกประการ */}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 pt-8 pb-3 md:pt-16 md:pb-6 text-center">
                   <p className="text-white font-medium animate-pulse" aria-live="polite">
                     {stageMessages[stage]}
                   </p>
                 </div>
               </>
             ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-8 text-center">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 md:gap-6 md:px-8 text-center">
                 <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center">
                   <IconCamera size={36} className="text-blush" />
                 </div>
@@ -291,9 +297,9 @@ export default function AnalyzePage() {
                     stageMessages.requesting
                   ) : (
                     <>
-                      กดปุ่มด้านขวาเพื่อเปิดกล้อง
+                      Press Start analysis to turn on
                       <br />
-                      และเริ่มวิเคราะห์อารมณ์
+                      your camera and begin
                     </>
                   )}
                 </p>
@@ -302,47 +308,67 @@ export default function AnalyzePage() {
           </div>
         </div>
 
-        {/* Right: Tips + CTA */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-blush/40 border border-clay/25 rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-gray-900">คำแนะนำก่อนสแกน</h2>
-            <p className="mt-1 text-sm text-gray-500">ทำตามเพื่อผลลัพธ์ที่แม่นยำที่สุด</p>
+        {/* Right: Tips + CTA (ปุ่ม Start analysis อยู่ท้ายกล่องนี้ ตำแหน่งเดิมทุกประการ) */}
+        <div className="lg:col-span-2 lg:col-start-4 lg:row-start-1 space-y-4 md:space-y-6">
+          <div className="bg-blush/40 border border-clay/25 rounded-2xl p-4 md:p-6">
+            <h2 className="text-lg font-semibold text-gray-900">Before you scan</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Follow these for the most reliable result
+            </p>
 
-            <ul className="mt-6 space-y-4">
+            {/* 320–374px หนึ่งคอลัมน์ เพราะสองคอลัมน์เหลือที่ข้อความ ~90px ซึ่งบีบเกินไป
+                375px ขึ้นไปเป็น 2×2 · ตั้งแต่ md กลับเป็นคอลัมน์เดียว gap 16px
+                เท่ากับ space-y-4 เดิมทุกประการ */}
+            <ul className="mt-4 grid grid-cols-1 min-[375px]:grid-cols-2 gap-3 md:mt-6 md:grid-cols-1 md:gap-4">
               {tips.map((tip) => (
-                <li key={tip.text} className="flex items-center gap-4">
-                  <div className="w-11 h-11 bg-blush rounded-xl flex items-center justify-center shrink-0">
+                <li key={tip.text} className="flex items-center gap-2 md:gap-4">
+                  <div className="w-9 h-9 md:w-11 md:h-11 bg-blush rounded-xl flex items-center justify-center shrink-0">
                     <tip.icon size={22} stroke={1.8} className="text-mocha" />
                   </div>
-                  <span className="text-gray-800">{tip.text}</span>
+                  <span className="min-w-0 text-sm md:text-base text-gray-800">
+                    {tip.text}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <p className="flex items-center gap-2 text-sm text-gray-500">
-            <IconLock size={16} />
-            ไม่ต้องสมัครสมาชิก · ไม่มีการบันทึกภาพหรือข้อมูล
+          {/* backend บันทึก usage stat (อารมณ์ + เวลา) จึงไม่อ้างว่า "no data stored"
+              อ้างเฉพาะเรื่องเฟรมภาพซึ่งตรวจแล้วว่าไม่ถูกเก็บ
+              ที่ 320px ข้อความยังตัดเป็นสองบรรทัดได้ ไอคอนจึงชิดบนและไม่หด */}
+          <p className="flex items-start gap-2 text-sm text-gray-500">
+            <IconLock size={16} className="mt-0.5 shrink-0" />
+            <span>No sign-up · captured frames are not stored</span>
           </p>
 
-          {busy ? (
-            <button
-              type="button"
-              onClick={cancelAnalysis}
-              className="block w-fit min-w-44 text-center border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
-            >
-              ยกเลิก
-            </button>
-          ) : (
+          {/* สถานะ idle: ปุ่มเริ่มวิเคราะห์อยู่ตำแหน่งและสไตล์เดิมทุกประการ
+              (ตอนกำลังวิเคราะห์ ปุ่มนี้หายไปและมี Cancel อยู่ใต้กล้องแทน — มีปุ่มเดียวเสมอ) */}
+          {!busy && (
             <button
               type="button"
               onClick={startAnalysis}
-              className="block w-fit min-w-44 text-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
+              className="block w-full md:w-fit md:min-w-44 text-center bg-clay text-mocha font-semibold px-8 py-3 rounded-full hover:bg-clay-dark transition-colors"
             >
               Start analysis
             </button>
           )}
         </div>
+
+        {/* Cancel — ใช้ handler เดิม (cancelAnalysis) ไม่ใช่ปุ่มใหม่ซ้อนของเดิม
+            มือถือ: order-last ทำให้อยู่ท้าย content ตามลำดับที่มองเห็น สูง 48px เต็มความกว้าง มีกรอบ
+            ตั้งแต่ sm: อยู่ใต้กล้อง เป็น text button ไม่มีกรอบ พื้นที่กด 44px
+            ช่วง sm–md กล้องถูกจัดกึ่งกลาง (max-w-md mx-auto) จึงจัดปุ่มกึ่งกลางตาม ตั้งแต่ md ชิดซ้ายใต้กล้อง */}
+        {busy && (
+          <div className="order-last sm:order-none lg:col-span-3 lg:col-start-1 lg:row-start-2 sm:flex sm:justify-center md:block">
+            <button
+              type="button"
+              onClick={cancelAnalysis}
+              className="flex w-full h-12 items-center justify-center border border-clay/55 text-gray-800 text-base font-medium px-8 rounded-full hover:bg-blush/50 transition-colors sm:w-fit sm:h-auto sm:min-h-11 sm:border-0 sm:px-2 sm:hover:bg-transparent sm:hover:text-rosewood"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

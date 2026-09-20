@@ -22,8 +22,27 @@
   --color-rosewood: #9C6650;
 }
 
+/* Safety net ชั้นสุดท้ายกัน horizontal scroll ที่หลุดมาจาก element เดี่ยว ๆ เท่านั้น
+   ต้นเหตุจริงต้องแก้ที่ layout ของแต่ละหน้า ห้ามใช้บรรทัดนี้ซ่อนปัญหา
+
+   ใช้ clip ไม่ใช่ hidden เพราะ hidden จะสร้าง scroll container ใหม่ที่ระดับ root
+   แล้วทำให้ Header ที่เป็น position: sticky หยุดเกาะขอบบน */
+html {
+  overflow-x: clip;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-prompt), Arial, Helvetica, sans-serif;
+}
+
+/* Focus ring กลางของทั้งระบบ — เดิมไม่มีไฟล์ไหนกำหนดไว้เลย ผู้ใช้ที่กด Tab
+   จึงมองไม่เห็นว่าโฟกัสอยู่ที่ element ไหน
+
+   ใช้ :focus-visible เพื่อให้กรอบขึ้นเฉพาะตอนใช้คีย์บอร์ด ไม่ขึ้นตอนคลิกด้วยเมาส์
+   rosewood บนพื้น snow ได้ contrast ~4.7:1 ผ่านเกณฑ์ 3:1 ของ WCAG 1.4.11 */
+:focus-visible {
+  outline: 2px solid var(--color-rosewood);
+  outline-offset: 2px;
 }
