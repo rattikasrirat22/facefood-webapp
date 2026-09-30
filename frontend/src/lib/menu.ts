@@ -34,6 +34,11 @@ export function pickForDisplay(groups: GroupedItems): GroupedItems {
   ) as GroupedItems;
 }
 
+/** สุ่มหยิบใหม่เฉพาะหมวดเดียว — ใช้กับปุ่ม Shuffle ข้างแถบหมวด ไม่แตะหมวดอื่น */
+export function pickCategoryForDisplay(groups: GroupedItems, category: Category): MenuItem[] {
+  return pickRandom(groups[category], DISPLAY_COUNT);
+}
+
 /** หมวดนี้มีรายการเหลือมากกว่าที่แสดงอยู่ไหม — ใช้ตัดสินใจว่าจะโชว์ปุ่ม "สุ่มเมนูใหม่" หรือไม่ */
 export function hasMoreThanShown(groups: GroupedItems, category: Category): boolean {
   return groups[category].length > DISPLAY_COUNT;
