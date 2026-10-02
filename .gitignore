@@ -264,6 +264,12 @@ node_modules/
 *.pth
 
 # ============================================================
+# Offline fine-tuning experiment workspaces — contain real photos of real
+# people's faces plus large checkpoint/log artifacts; never committed
+# ============================================================
+backend/diagnostics/finetune_experiments/
+
+# ============================================================
 # FaceFood local working artifacts — dataset prep / one-off Firebase tooling,
 # not part of the deployed app, never intended for version control
 # ============================================================
