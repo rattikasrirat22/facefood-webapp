@@ -40,12 +40,12 @@ export default function Home() {
           <div className="flex justify-center">
             <div className="relative w-full max-w-xl aspect-[4/3] rounded-3xl overflow-hidden shadow-lg">
               <Image
-                src="/hero-food.jpg"
+                src="/emotion2.png"
                 alt="An assortment of prepared dishes served on a table"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
+                className="object-cover object-right"
               />
             </div>
           </div>
@@ -67,12 +67,6 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col gap-3 pt-2 md:flex-row md:flex-wrap md:items-center md:gap-4 md:mb-0">
-              <Link
-                href="/#how-to-use"
-                className="inline-flex w-full md:w-auto items-center justify-center border border-clay/50 text-gray-800 px-8 py-3 rounded-full hover:border-rosewood hover:text-rosewood transition-colors font-medium"
-              >
-                How to use
-              </Link>
               <Link
                 href="/analyze"
                 className="inline-flex w-full md:w-auto items-center justify-center bg-clay text-mocha px-8 py-3 rounded-full hover:bg-clay-dark transition-colors font-semibold"

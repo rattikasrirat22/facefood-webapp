@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Image from 'next/image';
 import { IconPhoto } from '@tabler/icons-react';
 import type { MenuItem } from '@/types';
@@ -22,6 +22,33 @@ export default function MenuCard({ item }: { item: MenuItem }) {
   const [showDetails, setShowDetails] = useState(false);
   /** id ของกล่องเหตุผล ใช้ผูกกับ aria-controls ของปุ่มในการ์ดใบเดียวกัน */
   const detailsId = useId();
+  const reasonRef = useRef<HTMLParagraphElement>(null);
+  /** ข้อความเหตุผลล้นพื้นที่ 3 บรรทัดจริงหรือไม่ — วัดจาก DOM ไม่ใช่จำนวนตัวอักษร */
+  const [reasonOverflows, setReasonOverflows] = useState(false);
+
+  // วัดเฉพาะตอนพับอยู่ (มี line-clamp) เพราะตอนเปิดเต็มไม่มีอะไรล้นให้วัด
+  // ResizeObserver ยิงครั้งแรกทันทีที่ observe และยิงซ้ำเมื่อความกว้างการ์ดเปลี่ยน
+  // (resize / หมุนจอ / เปลี่ยน breakpoint) และวัดอีกรอบหลังฟอนต์โหลดเสร็จ เพราะฟอนต์จริงตัดบรรทัดต่างจาก fallback
+  useEffect(() => {
+    const element = reasonRef.current;
+    if (!element || showDetails) return;
+
+    let active = true;
+    const measure = () => {
+      if (!active) return;
+      // เผื่อ 1px กันค่าปัดเศษ (leading-relaxed ของ text-xs สูง 19.5px ต่อบรรทัด)
+      setReasonOverflows(element.scrollHeight - element.clientHeight > 1);
+    };
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    document.fonts?.ready.then(measure);
+
+    return () => {
+      active = false;
+      observer.disconnect();
+    };
+  }, [showDetails]);
   const showImage = Boolean(item.imageUrl) && !imageFailed;
 
   return (
@@ -65,6 +92,7 @@ export default function MenuCard({ item }: { item: MenuItem }) {
         {item.recommendationReason && (
           <>
             <p
+              ref={reasonRef}
               id={detailsId}
               className={`text-xs text-gray-500 leading-relaxed whitespace-normal break-words ${
                 showDetails ? '' : 'line-clamp-3'
@@ -73,17 +101,20 @@ export default function MenuCard({ item }: { item: MenuItem }) {
               {item.recommendationReason}
             </p>
 
-            {/* mt-auto ดันปุ่มไปอยู่ล่างสุดของเนื้อหาเสมอ ตำแหน่งจึงตรงกันทุกใบในแถวเดียวกัน
+            {/* แสดงปุ่มเฉพาะเมื่อข้อความถูกตัดจริง หรือกำลังเปิดอยู่ (ให้กด Show less ได้)
+                mt-auto ดันปุ่มไปอยู่ล่างสุดของเนื้อหาเสมอ ตำแหน่งจึงตรงกันทุกใบในแถวเดียวกัน
                 min-h-11 = 44px ให้พื้นที่กดผ่านเกณฑ์โดยไม่ต้องเพิ่มขนาดตัวอักษร */}
-            <button
-              type="button"
-              onClick={() => setShowDetails((open) => !open)}
-              aria-expanded={showDetails}
-              aria-controls={detailsId}
-              className="mt-auto self-start inline-flex min-h-11 items-center text-xs font-medium text-rosewood hover:text-mocha transition-colors"
-            >
-              {showDetails ? 'Show less' : 'View details'}
-            </button>
+            {(reasonOverflows || showDetails) && (
+              <button
+                type="button"
+                onClick={() => setShowDetails((open) => !open)}
+                aria-expanded={showDetails}
+                aria-controls={detailsId}
+                className="mt-auto self-start inline-flex min-h-11 items-center text-xs font-medium text-rosewood hover:text-mocha transition-colors"
+              >
+                {showDetails ? 'Show less' : 'View details'}
+              </button>
+            )}
           </>
         )}
       </div>

@@ -15,9 +15,14 @@ import {
   IconDice5,
   IconRefresh,
 } from '@tabler/icons-react';
-import { EMOTION_IDS, type Category, type EmotionId } from '@/types';
+import { EMOTION_IDS, type Category, type EmotionId, type GroupedItems } from '@/types';
 import { EMOTION_META } from '@/lib/emotions';
-import { groupByCategory, hasMoreThanShown, pickForDisplay } from '@/lib/menu';
+import {
+  groupByCategory,
+  hasMoreThanShown,
+  pickCategoryForDisplay,
+  pickForDisplay,
+} from '@/lib/menu';
 import { RESULT_STORAGE_KEY, readAnalysisResult } from '@/lib/session';
 import MenuCard from '@/components/MenuCard';
 
@@ -64,6 +69,21 @@ export default function ResultsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- shuffleCount เป็นตัวสั่งให้สุ่มใหม่โดยตั้งใจ
     [groups, shuffleCount],
   );
+  // ชุดที่สุ่มใหม่ด้วยปุ่ม Shuffle ข้างแถบหมวด เก็บแยกรายหมวด ทับ displayed เฉพาะหมวดนั้น
+  // จึงไม่กระทบหมวดอื่น และไม่แตะผลวิเคราะห์อารมณ์ — Shuffle suggestions ด้านล่างล้างทิ้งทั้งหมด
+  const [categoryPicks, setCategoryPicks] = useState<Partial<GroupedItems>>({});
+
+  const shuffleAll = () => {
+    setCategoryPicks({});
+    setShuffleCount((count) => count + 1);
+  };
+
+  const shuffleCategory = () => {
+    setCategoryPicks((picks) => ({
+      ...picks,
+      [category]: pickCategoryForDisplay(groups, category),
+    }));
+  };
 
   // ไม่มีผลวิเคราะห์ให้แสดง (เปิด URL ตรง ๆ หรือข้อมูลเสีย) — กลับไปเริ่มใหม่
   useEffect(() => {
@@ -80,7 +100,7 @@ export default function ResultsPage() {
   const MoodIcon = moodIcons[emotion.emotionId];
   const confidencePercent = Math.round(emotion.confidence * 100);
   const canReshuffle = hasMoreThanShown(groups, category);
-  const items = displayed[category];
+  const items = categoryPicks[category] ?? displayed[category];
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
@@ -166,33 +186,66 @@ export default function ResultsPage() {
 
       {/* Recommendations */}
       <div className="mt-10">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-          <IconToolsKitchen2 size={22} className="text-mocha" />
-          Recommended for you
-        </h2>
+        {/* หัวข้อ + แถบหมวด + ปุ่ม Shuffle เฉพาะหมวด อยู่ใน flex-wrap ก้อนเดียว (ปุ่มมีปุ่มเดียว ไม่ซ้ำ DOM)
+            ต่ำกว่า md: แถบหมวดถูก order-last ลงไปแถวล่าง ปุ่มจึงขึ้นมาอยู่แถวเดียวกับหัวข้อ ชิดขวาด้วย ml-auto
+            ถ้าจอแคบจนหัวข้อกับปุ่มไม่พอบรรทัดเดียว ปุ่มจะ wrap ลงบรรทัดใหม่เองและยังชิดขวา หัวข้อไม่ถูกบีบ
+            ตั้งแต่ md: หัวข้อกินเต็มแถว (basis-full) แถบหมวดกลับลำดับเดิม ปุ่มชิดขวาในแถวเดียวกับแถบหมวด
+            gap-y-5 = ระยะหัวข้อ→แถบหมวดเท่ากับ mt-5 เดิม
+            gap-x-2 เป็นแค่ระยะขั้นต่ำ (justify-between ดันออกคนละฝั่งอยู่แล้ว) ให้จอ 390px ยังพอบรรทัดเดียว */}
+        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-5">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900 md:basis-full">
+            <IconToolsKitchen2 size={22} className="text-mocha" />
+            Recommended for you
+          </h2>
 
-        {/* Category tabs — ต่ำกว่า md เป็น grid 2×2 ปุ่มกว้างเท่ากัน สูง 44px
-            ตั้งแต่ md ขึ้นไปกลับเป็น flex-wrap แบบเดิม */}
-        <div className="mt-5 grid grid-cols-2 gap-3 md:flex md:flex-wrap">
-          {categories.map((item) => {
-            const isActive = category === item.key;
-            return (
-              <button
-                key={item.key}
-                type="button"
-                onClick={() => setCategory(item.key)}
-                aria-pressed={isActive}
-                className={`flex items-center justify-center md:justify-start gap-2 text-sm font-medium px-3 py-3 md:px-5 md:py-2 rounded-full border transition-colors ${
-                  isActive
-                    ? 'bg-clay border-clay text-mocha'
-                    : 'bg-transparent border-clay/40 text-gray-700 hover:bg-blush/50'
-                }`}
-              >
-                <item.icon size={18} stroke={1.8} />
-                {item.label}
-              </button>
-            );
-          })}
+          {/* Category tabs — ต่ำกว่า md เป็นแถวเดียว 4 ปุ่มแบบ compact (text-xs, icon 16, สูง 40px)
+              flex-auto ให้ปุ่มกว้างตามชื่อแล้วแบ่งพื้นที่ที่เหลือ — วัดจริงแล้วต้องใช้ ~319px จึงพอตั้งแต่จอ 360px
+              ต่ำกว่า 22.5rem (360px) ใส่ชื่อไม่พอโดยไม่ย่อตัวอักษรเกิน 12px จึงเหลือ icon อย่างเดียว
+              ชื่อยังอยู่เป็น sr-only + aria-label ให้ screen reader และ title เป็น tooltip
+              ใช้หน่วย rem ให้ breakpoint ขยับตามขนาดตัวอักษรที่ผู้ใช้ตั้ง
+              ตั้งแต่ md ขึ้นไปกลับเป็น flex-wrap แบบเดิม — min-w-0 ให้ wrap ได้แทนการดันปุ่มล้น */}
+          <div className="order-last w-full flex gap-1 md:order-none md:w-auto md:flex-wrap md:gap-3 md:min-w-0">
+            {categories.map((item) => {
+              const isActive = category === item.key;
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => setCategory(item.key)}
+                  aria-pressed={isActive}
+                  aria-label={item.label}
+                  title={item.label}
+                  className={`flex flex-auto items-center justify-center md:flex-none md:justify-start gap-1 md:gap-2 text-xs md:text-sm font-medium px-2 py-3 md:px-5 md:py-2 rounded-full border transition-colors ${
+                    isActive
+                      ? 'bg-clay border-clay text-mocha'
+                      : 'bg-transparent border-clay/40 text-gray-700 hover:bg-blush/50'
+                  }`}
+                >
+                  <item.icon
+                    size={18}
+                    stroke={1.8}
+                    className="size-5 shrink-0 min-[22.5rem]:size-4 md:size-4.5"
+                    aria-hidden
+                  />
+                  <span className="sr-only whitespace-nowrap min-[22.5rem]:not-sr-only">
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {canReshuffle && (
+            <button
+              type="button"
+              onClick={shuffleCategory}
+              aria-label={`Shuffle ${categories.find((item) => item.key === category)?.label} suggestions`}
+              className="ml-auto shrink-0 inline-flex min-h-11 md:min-h-0 items-center justify-center gap-2 text-sm font-medium px-5 py-2 rounded-full border border-clay/40 text-gray-700 hover:bg-blush/50 transition-colors"
+            >
+              <IconDice5 size={18} stroke={1.8} />
+              Shuffle
+            </button>
+          )}
         </div>
 
         {/* Menu cards */}
@@ -216,7 +269,7 @@ export default function ResultsPage() {
           {canReshuffle && (
             <button
               type="button"
-              onClick={() => setShuffleCount((count) => count + 1)}
+              onClick={shuffleAll}
               className="w-full md:w-auto flex items-center justify-center gap-2 border border-clay/40 text-gray-800 font-medium px-8 py-3 rounded-full hover:bg-blush/50 transition-colors"
             >
               <IconDice5 size={20} stroke={1.8} />
@@ -249,7 +302,7 @@ function ResultsSkeleton() {
           แล้วประกาศสถานะด้วยข้อความเดียวด้านล่างแทน จะได้ไม่อ่านซ้ำซ้อน
 
           ทุก class ตรงกับของจริงชิ้นต่อชิ้นทุก breakpoint (การ์ดอารมณ์สองแถวแล้วเป็นแถวเดียวที่ sm,
-          ปุ่มหมวด grid 2×2 จนถึง md, การ์ดเมนู 1 คอลัมน์รูปซ้าย → 2 คอลัมน์รูปบนที่ sm)
+          ปุ่มหมวดแถวเดียวสูง 40px จนถึง md, การ์ดเมนู 1 คอลัมน์รูปซ้าย → 2 คอลัมน์รูปบนที่ sm)
           เพื่อให้ตอนสลับมาเป็นเนื้อหาจริงแล้วตำแหน่งไม่ขยับ */}
       <div aria-hidden="true" className="animate-pulse">
         <div className="bg-snow border border-clay/25 rounded-2xl p-6 md:p-8">
@@ -271,9 +324,9 @@ function ResultsSkeleton() {
 
         <div className="mt-10 space-y-5">
           <div className="h-6 w-48 bg-blush rounded-full" />
-          <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap">
+          <div className="flex gap-1 md:flex-wrap md:gap-3">
             {categories.map((item) => (
-              <div key={item.key} className="h-11 md:h-9 md:w-32 bg-blush rounded-full" />
+              <div key={item.key} className="h-10 flex-1 md:flex-none md:h-9 md:w-32 bg-blush rounded-full" />
             ))}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
